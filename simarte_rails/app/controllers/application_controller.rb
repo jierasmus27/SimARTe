@@ -4,4 +4,19 @@ class ApplicationController < ActionController::Base
 
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
+
+  before_action :authenticate_user!
+
+  protected
+
+  def authenticate_user!
+    unless user_signed_in?
+      store_location_for(:user, request.fullpath)
+      redirect_to root_path
+    end
+  end
+
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) || admin_root_path
+  end
 end

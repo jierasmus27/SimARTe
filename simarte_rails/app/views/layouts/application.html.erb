@@ -25,5 +25,10 @@
 
   <body>
     <%= yield %>
+
+    <turbo-frame id="modal"></turbo-frame>
+
+    <%= link_to "Login", new_user_session_path, data: { turbo_frame: "modal" } %>
   </body>
+
 </html>

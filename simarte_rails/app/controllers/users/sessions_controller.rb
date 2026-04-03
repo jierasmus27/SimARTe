@@ -1,5 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
-  layout false
+  layout "login"
 
   def respond_to_on_destroy
     redirect_to root_path, status: :see_other

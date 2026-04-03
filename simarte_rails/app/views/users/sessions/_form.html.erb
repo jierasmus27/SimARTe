@@ -1,23 +1,15 @@
-<div data-controller="modal" class="modal">
-  <div class="modal-content">
-    <button data-action="click->modal#close">X</button>
+<%= form_with model: resource,
+              url: session_path(resource_name) do |f| %>
 
-    <h2>Login</h2>
-
-    <%= form_with model: resource,
-                  url: session_path(resource_name) do |f| %>
-
-      <div>
-        <%= f.label :email %><br>
-        <%= f.email_field :email %>
-      </div>
-
-      <div>
-        <%= f.label :password %><br>
-        <%= f.password_field :password %>
-      </div>
-
-      <%= f.submit "Log in" %>
-    <% end %>
+  <div>
+    <%= f.label :email %><br>
+    <%= f.email_field :email %>
   </div>
-</div>
+
+  <div>
+    <%= f.label :password %><br>
+    <%= f.password_field :password %>
+  </div>
+
+  <%= f.submit "Log in" %>
+<% end %>

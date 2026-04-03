@@ -1,3 +1,5 @@
 <turbo-frame id="modal">
-  <%= render "form", resource: resource %>
-</turbo-frame
+  <%= render ModalComponent.new(title: "Login") do %>
+    <%= render "form", resource: resource %>
+  <% end %>
+</turbo-frame>

@@ -2,6 +2,7 @@ module.exports = {
   darkMode: "class",
   content: [
     "./app/views/**/*.html.erb",
+    "./app/components/**/*.html.erb",
     "./app/helpers/**/*.rb",
     "./app/javascript/**/*.js"
   ],
@@ -57,9 +58,14 @@ module.exports = {
         "surface-tint": "#96d3bd"
       },
       fontFamily: {
-        headline: ["Space Grotesk"],
-        body: ["Inter"],
-        label: ["Inter"]
+        headline: [
+          "Space Grotesk",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
+        body: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        label: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       borderRadius: {
         DEFAULT: "0.125rem",

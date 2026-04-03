@@ -23,8 +23,9 @@
 }
 
 .modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 300px;
+  width: min(100vw - 2rem, 28rem);
+  max-width: 100%;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
 }

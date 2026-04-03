@@ -1,0 +1,63 @@
+<div data-controller="modal" class="relative w-full">
+  <div class="glass-panel border border-primary/10 p-10 rounded-sm shadow-[0_40px_100px_rgba(0,0,0,0.5)] relative">
+
+    <button
+      type="button"
+      class="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-sm text-on-surface/50 transition hover:bg-white/5 hover:text-on-surface"
+      data-action="click->modal#close"
+      aria-label="Close"
+    >
+      <span class="material-symbols-outlined text-xl leading-none">close</span>
+    </button>
+
+    <header class="mb-10 text-center">
+      <h2 class="font-headline text-2xl font-bold text-on-surface mb-2 tracking-tight">
+        <%= title %>
+      </h2>
+      <div class="h-[2px] w-8 bg-primary mx-auto mb-4"></div>
+      <p class="text-xs text-on-surface/50 font-medium uppercase tracking-wider">
+        Identity Verification Protocol
+      </p>
+    </header>
+
+    <%= form_with url: user_session_path, scope: :user, method: :post, class: "space-y-8" do |f| %>
+
+      <div class="space-y-2">
+        <%= f.label :email, "Registry ID",
+          class: "font-headline text-[10px] font-bold uppercase tracking-widest text-primary" %>
+
+        <div class="relative group">
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface/30 group-focus-within:text-primary">
+            person
+          </span>
+
+          <%= f.email_field :email,
+            autocomplete: "email",
+            class: "w-full bg-[#060708] border border-white/5 py-4 pl-12 pr-4 text-on-surface focus:ring-1 focus:ring-primary/40 rounded-sm",
+            placeholder: "admin.observatory_01" %>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <%= f.label :password, "Encryption Key",
+          class: "font-headline text-[10px] font-bold uppercase tracking-widest text-primary" %>
+
+        <div class="relative group">
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface/30 group-focus-within:text-primary">
+            lock
+          </span>
+
+          <%= f.password_field :password,
+            autocomplete: "current-password",
+            class: "w-full bg-[#060708] border border-white/5 py-4 pl-12 pr-12 text-on-surface focus:ring-1 focus:ring-primary/40 rounded-sm",
+            placeholder: "••••••••••••" %>
+        </div>
+      </div>
+
+      <%= f.submit "INITIALIZE SESSION",
+        class: "w-full bg-primary text-[#0c0e10] font-headline font-black py-5 rounded-sm" %>
+
+    <% end %>
+
+  </div>
+</div>

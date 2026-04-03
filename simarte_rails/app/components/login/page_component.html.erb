@@ -1,0 +1,40 @@
+<div class="bg-[#0c0e10] font-body text-on-surface min-h-screen flex items-center justify-center overflow-hidden relative">
+
+  <!-- Background -->
+  <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+    <div class="absolute inset-0 ar-grid"></div>
+
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-[0.15]">
+      <img class="w-full h-full object-cover grayscale invert contrast-[1.1] brightness-[0.8]"
+           alt=""
+           src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZYdUtnarGWlKNBW7K5ntbfyZitPLDKxmWa2_S74PCvUuabBnsXh6PBi0Oopi_vRqItcIUGLqAQ1Zy6H824RE4RWbYJ3h0IDJ21LtxF6-VBiL_3-zpasUQpntnqeXGYahdqGJsbwDB8D8ZfDdXf21UtBhXy8XNc0rVWuvhmhe3TJ51x9CxCAxudfdpavWIZejX-i0aEvFDF14Bo8MW9rXfwKqOph6T9AirA0ftPJehzyx14HwvfhlRONum_Bvkg_nj_OMPAb7ymDZQ" />
+    </div>
+
+    <div class="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px]"></div>
+    <div class="absolute bottom-[-15%] left-[-15%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]"></div>
+  </div>
+
+  <!-- Main -->
+  <main class="relative z-10 w-full max-w-md px-6 py-12">
+
+    <!-- Logo -->
+    <div class="flex flex-col items-center mb-12">
+      <div class="flex items-center gap-4 mb-3">
+        <span class="material-symbols-outlined text-primary text-5xl">deployed_code</span>
+        <h1 class="font-headline text-4xl font-bold tracking-tighter text-primary">SimARTe</h1>
+      </div>
+      <p class="font-headline text-[10px] uppercase tracking-[0.4em] text-primary/60">
+        Living Observatory
+      </p>
+    </div>
+
+    <%= render Login::ModalComponent.new %>
+
+    <footer class="mt-12 text-center">
+      <p class="text-[10px] font-headline font-bold text-on-surface/20 uppercase tracking-[0.4em]">
+        SimARTe System v4.5.0 • Terminal Registry 2024
+      </p>
+    </footer>
+
+  </main>
+</div>

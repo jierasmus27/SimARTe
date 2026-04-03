@@ -25,17 +25,22 @@ services:
     build:
       context: ./simarte_rails
       dockerfile: Dockerfile.dev
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
+    #command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
+    command: ./bin/dev
     volumes:
       - ./simarte_rails:/app
       - bundle_data:/usr/local/bundle
+    working_dir: /app
     ports:
       - "3000:3000"
+    tty: true
+    stdin_open: true
     environment:
       DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       REDIS_URL: ${REDIS_URL}
+      TAILWIND_WATCHER_POLLING: true
     depends_on:
       db:
         condition: service_healthy

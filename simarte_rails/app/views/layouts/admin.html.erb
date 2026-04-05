@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= render "layouts/head" %>
+  </head>
+  <body class="bg-[#111416] font-body text-on-surface antialiased selection:bg-primary selection:text-on-primary">
+    <div class="flex min-h-screen" data-controller="sidebar">
+      <div
+        class="fixed inset-0 z-40 hidden bg-black/50 md:hidden"
+        data-sidebar-target="backdrop"
+        data-action="click->sidebar#close"
+      ></div>
+
+      <%= render Admin::SidebarComponent.new(current_path: request.path) %>
+
+      <div class="flex min-w-0 flex-1 flex-col">
+        <%= render Admin::TopBarComponent.new(user: current_user) %>
+        <%= turbo_frame_tag "admin_main", class: "flex min-h-0 flex-1 flex-col overflow-auto" do %>
+          <%= yield %>
+        <% end %>
+      </div>
+    </div>
+  </body>
+</html>

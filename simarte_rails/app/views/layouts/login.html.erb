@@ -2,9 +2,11 @@
 <html>
   <head>
     <%= render "layouts/head" %>
+    <%# Same URL as pre-login GET — Turbo can restore a cached snapshot without flash; force fresh render. %>
+    <meta name="turbo-cache-control" content="no-cache">
   </head>
 
-  <body class="bg-background font-body text-on-surface antialiased">
+  <body class="bg-background font-body text-on-surface antialiased" data-turbo-cache="false">
     <%= yield %>
   </body>
 </html>

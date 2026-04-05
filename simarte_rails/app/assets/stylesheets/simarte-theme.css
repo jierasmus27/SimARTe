@@ -30,15 +30,7 @@
     color: color-mix(in oklab, #e2e6eb 45%, transparent);
   }
 
-  .login-field:-webkit-autofill,
-  .login-field:-webkit-autofill:hover,
-  .login-field:-webkit-autofill:focus {
-    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
-    -webkit-text-fill-color: #e2e6eb;
-    caret-color: #e2e6eb;
-    transition: background-color 9999s ease-out 0s;
-    box-shadow: inset 0 0 0 100px #060708;
-  }
+  /* Autofill paint: see unlayered rules below (must beat Tailwind + Chrome UA). */
 
   .material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
@@ -183,46 +175,57 @@ input.login-field[type="password"]:active {
 }
 
 /*
- * Filled fields (saved passwords / remembered email): Chrome applies :-webkit-autofill
- * and may inject font + color with high specificity — reset the font shorthand first.
+ * Filled fields (saved passwords / remembered email): Chrome sets :-webkit-autofill with
+ * !important in the UA sheet. Do not use `font: unset` here — it can leave a smaller
+ * computed size than our explicit rules. Match the 16px / 24px line-height used above.
+ *
+ * Note: The credential *dropdown* (saved accounts + “Manage passwords”) is native Chrome
+ * UI, not page content — its font size cannot be changed with CSS.
  */
+@keyframes login-field-autofill-fix {
+  from {
+    font-size: 16px;
+  }
+  to {
+    font-size: 16px;
+  }
+}
+
 input.login-field:-webkit-autofill,
 input.login-field:-webkit-autofill:hover,
 input.login-field:-webkit-autofill:focus,
 input.login-field:-webkit-autofill:active {
-  font: unset;
-  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
-  font-size: 18px;
-  font-weight: 400;
-  font-style: normal;
-  line-height: 24px;
-  letter-spacing: normal;
-  font-synthesis: none;
-  -webkit-text-fill-color: #e2e6eb;
+  animation: login-field-autofill-fix 0.001s both;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  line-height: 24px !important;
+  letter-spacing: normal !important;
+  font-synthesis: none !important;
+  -webkit-text-fill-color: #e2e6eb !important;
+  color: #e2e6eb !important;
   caret-color: #e2e6eb;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-  /* Delay background “forever” so our dark fill wins over Chrome’s yellow/blue */
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
   transition: background-color 9999s ease-out 0s;
   box-shadow: inset 0 0 0 100px #060708;
 }
 
-/* Standard :autofill (Chrome 121+, Safari) — same treatment as -webkit-autofill */
 input.login-field:autofill,
 input.login-field:autofill:hover,
 input.login-field:autofill:focus,
 input.login-field:autofill:active {
-  font: unset;
-  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
-  font-size: 18px;
-  font-weight: 400;
-  font-style: normal;
-  line-height: 24px;
-  letter-spacing: normal;
-  -webkit-text-fill-color: #e2e6eb;
-  color: #e2e6eb;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  line-height: 24px !important;
+  letter-spacing: normal !important;
+  -webkit-text-fill-color: #e2e6eb !important;
+  color: #e2e6eb !important;
   caret-color: #e2e6eb;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
   box-shadow: inset 0 0 0 100px #060708;
 }

@@ -20,7 +20,16 @@
       </p>
     </header>
 
-    <%= form_with url: user_session_path, scope: :user, method: :post, class: "space-y-8" do |f| %>
+    <% if (alert_msg = alert_message).present? %>
+      <div
+        role="alert"
+        class="mb-6 rounded-sm border border-error/40 bg-error/10 px-4 py-3 text-center text-sm text-error"
+      >
+        <%= alert_msg %>
+      </div>
+    <% end %>
+
+    <%= form_with url: user_session_path, scope: :user, method: :post, class: "space-y-8", data: { turbo: false } do |f| %>
 
       <div class="space-y-2">
         <%= f.label :email, "Registry ID",
@@ -54,7 +63,7 @@
 
       <%= f.button "INITIALIZE SESSION",
         type: :submit,
-        class: "w-full cursor-pointer border-0 bg-primary px-4 py-5 font-headline text-base font-black text-[#0c0e10] shadow-sm transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#111416] active:brightness-95 rounded-sm" %>
+        class: "w-full cursor-pointer border-0 bg-primary px-4 py-5 font-headline text-base font-black text-[#0c0e10] shadow-sm transition hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-0 active:opacity-90 rounded-sm" %>
 
     <% end %>
 

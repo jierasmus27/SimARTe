@@ -1,0 +1,6 @@
+Always follow specifications/_standards.md
+
+When implementing features:
+- Prefer minimal code
+- Do not introduce unnecessary abstractions
+- Follow Rails conventions strictly

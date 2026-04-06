@@ -11,10 +11,14 @@ class Admin::UserManagement::TableRowComponent < ViewComponent::Base
   attr_reader :user, :services
 
   def subscribed?(service_id)
-    subscribed_service_ids.include?(service_id)
+    subscriptions_by_service_id.key?(service_id)
   end
 
-  def subscribed_service_ids
-    @subscribed_service_ids ||= user.services.ids.to_set
+  def subscription_for(service)
+    subscriptions_by_service_id[service.id]
+  end
+
+  def subscriptions_by_service_id
+    @subscriptions_by_service_id ||= user.subscriptions.index_by(&:service_id)
   end
 end

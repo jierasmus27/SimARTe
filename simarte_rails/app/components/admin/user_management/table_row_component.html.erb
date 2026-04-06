@@ -27,19 +27,38 @@
       data-service-id="<%= service.id %>"
       data-user-id="<%= user.id %>"
     >
-      <label class="relative inline-flex items-center cursor-pointer">
-        <input
-          type="checkbox"
-          class="sr-only peer"
-          data-service-id="<%= service.id %>"
-          data-user-id="<%= user.id %>"
-          id="subscription_<%= user.id %>_service_<%= service.id %>"
-          <%= "checked" if subscribed?(service.id) %>
-        />
-        <div
-          class="w-8 h-4 bg-surface-container-lowest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface-variant after:border-none after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:after:bg-[#0c0e10]">
-        </div>
-      </label>
+      <% if (sub = subscription_for(service)) %>
+        <%= form_with url: admin_subscription_path(sub), method: :delete, data: { turbo: true, controller: "subscription-toggle" }, class: "inline-flex justify-center" do %>
+          <label class="relative inline-flex cursor-pointer items-center">
+            <input
+              type="checkbox"
+              class="sr-only peer"
+              checked
+              id="subscription_<%= user.id %>_service_<%= service.id %>"
+              data-action="change->subscription-toggle#submitIfUnchecked"
+            />
+            <div
+              class="w-8 h-4 bg-surface-container-lowest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface-variant after:border-none after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:after:bg-[#0c0e10]">
+            </div>
+          </label>
+        <% end %>
+      <% else %>
+        <%= form_with url: admin_subscriptions_path, method: :post, data: { turbo: true, controller: "subscription-toggle" }, class: "inline-flex justify-center" do %>
+          <%= hidden_field_tag :user_id, user.id %>
+          <%= hidden_field_tag :service_id, service.id %>
+          <label class="relative inline-flex cursor-pointer items-center">
+            <input
+              type="checkbox"
+              class="sr-only peer"
+              id="subscription_<%= user.id %>_service_<%= service.id %>"
+              data-action="change->subscription-toggle#submitIfChecked"
+            />
+            <div
+              class="w-8 h-4 bg-surface-container-lowest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface-variant after:border-none after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:after:bg-[#0c0e10]">
+            </div>
+          </label>
+        <% end %>
+      <% end %>
     </td>
   <% end %>
   <td class="px-6 py-5 text-right">

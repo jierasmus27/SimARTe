@@ -34,7 +34,7 @@
           placeholder="Search by name, role, or active service..." type="text" />
       </div>
       <div class="flex items-center gap-4 text-xs font-label uppercase tracking-widest text-on-surface-variant">
-        <span>Total Users: <%= User.count %></span>
+        <span>Total Users: <%= @users.count %></span>
         <span class="text-primary opacity-40">•</span>
         <span>Active Sessions: 12</span>
       </div>
@@ -63,7 +63,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-outline-variant/5">
-          <% User.find_each(batch_size: 100) do |user| %>
+          <% @users.find_each(batch_size: 100) do |user| %>
             <%= render Admin::UserManagement::TableRowComponent.new(user: user) %>
           <% end %>
         </tbody>
@@ -72,7 +72,7 @@
     <!-- Pagination -->
     <div class="p-5 bg-surface-container-low flex items-center justify-between border-t border-outline-variant/5">
       <div class="text-[11px] text-on-surface-variant font-medium tracking-wide uppercase">
-          Showing 1-4 of 254 entries
+          Showing 1-<%= @users.count %> of <%= @users.count %> entries
       </div>
       <div class="flex items-center gap-3">
         <button class="p-2 text-on-surface-variant hover:text-primary transition-colors disabled:opacity-20" disabled>

@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   }
 
   namespace :admin do
+    resources :subscriptions, only: %i[create destroy]
+
     root to: "users#index", as: :root
     get "dashboard", to: "dashboard#show"
     get "services", to: "services#show"

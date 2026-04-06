@@ -1,5 +1,6 @@
 class Admin::UsersController < Admin::BaseController
   def index
-    @users = User.order(:email)
+    @services = Service.order(:name)
+    @users = User.includes(:services, subscriptions: :service).order(:email)
   end
 end

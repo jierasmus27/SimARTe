@@ -1,19 +1,20 @@
+# frozen_string_literal: true
+
 class Admin::UserManagement::TableRowComponent < ViewComponent::Base
-  def initialize(user:)
+  def initialize(user:, services:)
     @user = user
+    @services = services
   end
 
   private
 
-  def service_input_checked?(service_name:)
-    signed_up_for_service?(service_name: service_name) ? "checked" : ""
+  attr_reader :user, :services
+
+  def subscribed?(service_id)
+    subscribed_service_ids.include?(service_id)
   end
 
-  def signed_up_for_service?(service_name:)
-    user_services.exists?(name: service_name)
-  end
-
-  def user_services
-    @_user_services ||= @user.services
+  def subscribed_service_ids
+    @subscribed_service_ids ||= user.services.ids.to_set
   end
 end

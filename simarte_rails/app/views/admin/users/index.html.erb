@@ -48,23 +48,22 @@
               Name</th>
             <th class="px-6 py-5 text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant">Role
             </th>
-            <th
-              class="px-6 py-5 text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant text-center">
-              AR</th>
-            <th
-              class="px-6 py-5 text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant text-center">
-              Simulation</th>
-            <th
-              class="px-6 py-5 text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant text-center">
-              GIS</th>
+            <% @services.each do |service| %>
+              <th
+                class="px-6 py-5 text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant text-center"
+                data-service-id="<%= service.id %>"
+              >
+                <%= service.name %>
+              </th>
+            <% end %>
             <th
               class="px-6 py-5 text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant text-right">
               Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-outline-variant/5">
-          <% @users.find_each(batch_size: 100) do |user| %>
-            <%= render Admin::UserManagement::TableRowComponent.new(user: user) %>
+          <% @users.each do |user| %>
+            <%= render Admin::UserManagement::TableRowComponent.new(user: user, services: @services) %>
           <% end %>
         </tbody>
       </table>

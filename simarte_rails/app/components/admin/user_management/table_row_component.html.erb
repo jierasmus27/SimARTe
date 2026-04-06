@@ -1,4 +1,8 @@
-<tr class="hover:bg-primary/5 transition-colors group">
+<tr
+  id="<%= dom_id(user, :table_row) %>"
+  class="hover:bg-primary/5 transition-colors group"
+  data-user-id="<%= user.id %>"
+>
   <td class="px-6 py-5">
     <div class="flex items-center gap-4">
       <div
@@ -7,8 +11,8 @@
           data-icon="account_circle">account_circle</span>
       </div>
       <div>
-        <div class="text-sm font-medium text-on-surface"><%= @user.full_name %></div>
-        <div class="text-xs text-on-surface-variant font-['Space_Grotesk']"><%= @user.email %></div>
+        <div class="text-sm font-medium text-on-surface"><%= user.full_name %></div>
+        <div class="text-xs text-on-surface-variant font-['Space_Grotesk']"><%= user.email %></div>
       </div>
     </div>
   </td>
@@ -17,37 +21,34 @@
       class="inline-flex items-center px-2 py-0.5 rounded-sm text-[10px] font-bold uppercase tracking-tight bg-primary/10 text-primary border border-primary/20 font-['Space_Grotesk']">User
       Role</span>
   </td>
-  <td class="px-6 py-5 text-center">
-    <label class="relative inline-flex items-center cursor-pointer">
-      <input <%= service_input_checked?(service_name: "AR") %> class="sr-only peer" type="checkbox" />
-      <div
-        class="w-8 h-4 bg-surface-container-lowest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface-variant after:border-none after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:after:bg-[#0c0e10]">
-      </div>
-    </label>
-  </td>
-  <td class="px-6 py-5 text-center">
-    <label class="relative inline-flex items-center cursor-pointer">
-      <input <%= service_input_checked?(service_name: "Simulation") %> class="sr-only peer" type="checkbox" />
-      <div
-        class="w-8 h-4 bg-surface-container-lowest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface-variant after:border-none after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:after:bg-[#0c0e10]">
-      </div>
-    </label>
-  </td>
-  <td class="px-6 py-5 text-center">
-    <label class="relative inline-flex items-center cursor-pointer">
-      <input <%= service_input_checked?(service_name: "GIS") %> class="sr-only peer" type="checkbox" />
-      <div
-        class="w-8 h-4 bg-surface-container-lowest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface-variant after:border-none after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:after:bg-[#0c0e10]">
-      </div>
-    </label>
-  </td>
+  <% services.each do |service| %>
+    <td
+      class="px-6 py-5 text-center"
+      data-service-id="<%= service.id %>"
+      data-user-id="<%= user.id %>"
+    >
+      <label class="relative inline-flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          class="sr-only peer"
+          data-service-id="<%= service.id %>"
+          data-user-id="<%= user.id %>"
+          id="subscription_<%= user.id %>_service_<%= service.id %>"
+          <%= "checked" if subscribed?(service.id) %>
+        />
+        <div
+          class="w-8 h-4 bg-surface-container-lowest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface-variant after:border-none after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:after:bg-[#0c0e10]">
+        </div>
+      </label>
+    </td>
+  <% end %>
   <td class="px-6 py-5 text-right">
     <div class="flex justify-end gap-1">
-      <button class="p-2 text-on-surface-variant hover:text-primary transition-colors"
+      <button type="button" class="p-2 text-on-surface-variant hover:text-primary transition-colors"
         title="Reset Password">
         <span class="material-symbols-outlined text-lg" data-icon="lock_reset">lock_reset</span>
       </button>
-      <button class="p-2 text-on-surface-variant hover:text-primary transition-colors"
+      <button type="button" class="p-2 text-on-surface-variant hover:text-primary transition-colors"
         title="Edit Permissions">
         <span class="material-symbols-outlined text-lg" data-icon="shield_person">shield_person</span>
       </button>

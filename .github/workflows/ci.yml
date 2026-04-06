@@ -59,7 +59,7 @@ jobs:
           bundler-cache: true
 
       - name: Prepare RuboCop cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           DEPENDENCIES_HASH: ${{ hashFiles('simarte_rails/.ruby-version', 'simarte_rails/Gemfile.lock', 'simarte_rails/.rubocop.yml', 'simarte_rails/.rubocop_todo.yml') }}
         with:

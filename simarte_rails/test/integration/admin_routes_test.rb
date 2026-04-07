@@ -12,4 +12,13 @@ class AdminRoutesTest < ActionDispatch::IntegrationTest
     get admin_users_path
     assert_redirected_to root_path
   end
+
+  test "signed-in non-admin cannot access admin dashboard" do
+    sign_in users(:two)
+
+    get admin_users_path
+
+    assert_redirected_to root_path
+    assert_equal "Incorrect username or password.", flash[:alert]
+  end
 end

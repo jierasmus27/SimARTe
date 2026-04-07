@@ -8,6 +8,11 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :first_name, :last_name, presence: true
 
+  enum :role, {
+    user: 0,
+    admin: 1
+  }
+
   def initials
     "#{first_name.to_s[0]}#{last_name.to_s[0]}".upcase
   end

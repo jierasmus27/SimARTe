@@ -7,7 +7,7 @@ class LoginFailureTest < ActionDispatch::IntegrationTest
     }
 
     assert_redirected_to root_path
-    assert_equal "Administrator access is required.", flash[:alert]
+    assert_equal "Incorrect username or password.", flash[:alert]
 
     get admin_users_path
     assert_redirected_to root_path

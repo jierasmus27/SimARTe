@@ -4,10 +4,6 @@ class Users::SessionsController < Devise::SessionsController
   skip_after_action :verify_authorized
   skip_after_action :verify_policy_scoped
 
-  # Allow POST while a stale non-admin session exists so credentials can be replaced;
-  # otherwise Devise redirects with "You are already signed in." before `create` runs.
-  skip_before_action :require_no_authentication, only: [:create]
-
   layout "login"
 
   def create

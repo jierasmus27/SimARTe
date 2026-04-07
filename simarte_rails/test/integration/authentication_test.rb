@@ -5,6 +5,6 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
     sign_in users(:one)
 
     get root_path
-    assert_redirected_to admin_root_path
+    assert_redirected_to admin_users_path
   end
 end

@@ -9,8 +9,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :subscriptions, only: %i[create destroy]
+    resources :users, only: :index
 
-    root to: "users#index", as: :root
     get "dashboard", to: "dashboard#show"
     get "services", to: "services#show"
     get "analytics", to: "analytics#show"

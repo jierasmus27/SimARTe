@@ -4,6 +4,6 @@ class AdminController < ApplicationController
   def show
     return render(Login::PageComponent.new(alert: flash[:alert]), layout: "login") unless user_signed_in?
 
-    redirect_to admin_root_path
+    redirect_to admin_users_path
   end
 end

@@ -25,7 +25,7 @@ class Admin::SubscriptionsTest < ActionDispatch::IntegrationTest
       post admin_subscriptions_path, params: { user_id: users(:one).id, service_id: services(:gis).id }
     end
 
-    assert_redirected_to admin_root_path
+    assert_redirected_to admin_users_path
     assert Subscription.exists?(user: users(:one), service: services(:gis))
   end
 
@@ -37,7 +37,7 @@ class Admin::SubscriptionsTest < ActionDispatch::IntegrationTest
       delete admin_subscription_path(subscription)
     end
 
-    assert_redirected_to admin_root_path
+    assert_redirected_to admin_users_path
     assert_not Subscription.exists?(subscription.id)
   end
 
@@ -49,7 +49,7 @@ class Admin::SubscriptionsTest < ActionDispatch::IntegrationTest
       post admin_subscriptions_path, params: { user_id: users(:one).id, service_id: services(:ar).id }
     end
 
-    assert_redirected_to admin_root_path
+    assert_redirected_to admin_users_path
     assert_equal "User has already been taken", flash[:alert]
   end
 end

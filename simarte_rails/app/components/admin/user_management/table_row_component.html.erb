@@ -17,9 +17,7 @@
     </div>
   </td>
   <td class="px-6 py-5">
-    <span
-      class="inline-flex items-center px-2 py-0.5 rounded-sm text-[10px] font-bold uppercase tracking-tight bg-primary/10 text-primary border border-primary/20 font-['Space_Grotesk']">User
-      Role</span>
+    <%= render Admin::UserManagement::ButtonPickerComponent.new(selected_value: user.role, options: User.roles.keys) %>
   </td>
   <% services.each do |service| %>
     <td

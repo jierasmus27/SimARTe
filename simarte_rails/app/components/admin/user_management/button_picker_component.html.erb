@@ -1,0 +1,57 @@
+<div data-controller="button-picker"
+     data-action="button-picker:selected">
+  <button
+    type="button"
+    data-action="click->user-management-table-row#toggleRole">
+    <span
+      class="inline-flex items-center px-2 py-0.5 rounded-sm text-[10px] font-bold uppercase tracking-tight bg-primary/10 text-primary border border-primary/20 font-['Space_Grotesk']">
+      <%= selected_value.humanize %>
+    </span>
+  </button>
+</div>
+
+<div hidden class="fixed inset-0 z-[100] flex items-center justify-center bg-[#000000]/40 backdrop-blur-sm">
+  <!-- Modal Content -->
+  <div class="w-[500px] modal-blur glass-panel rounded-[24px] border border-[#acead3]/40 glow-border p-8 relative shadow-[0px_20px_50px_rgba(172,234,211,0.15)]">
+    <!-- Modal Header -->
+    <div class="mb-8 text-center">
+      <div class="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl mb-4 border border-primary/20">
+        <span class="material-symbols-outlined text-primary text-2xl">admin_panel_settings</span>
+      </div>
+      <h2 class="text-2xl font-bold font-headline tracking-tight text-on-surface"><%= header %></h2>
+      <p class="text-on-surface-variant text-sm mt-1">Assign system permissions and interface layout</p>
+    </div>
+    <!-- Role List -->
+    <div class="space-y-3">
+      <% options.each do |option| %>
+        <div class="group flex items-center justify-between p-4 rounded-xl bg-surface-container-highest/50 border border-outline-variant/10 hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:text-primary transition-colors">
+              <span class="material-symbols-outlined">construction</span>
+            </div>
+            <div>
+              <p class="text-sm font-bold tracking-wide"><%= option.humanize %></p>
+              <p class="text-[10px] text-on-surface-variant uppercase tracking-tighter"><%= option.humanize %></p>
+            </div>
+          </div>
+          <% if option == selected_value %>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold text-primary uppercase tracking-widest">Active</span>
+              <span class="material-symbols-outlined text-primary">check_circle</span>
+            </div>
+          <% else %>
+            <span class="material-symbols-outlined text-on-surface-variant/30 group-hover:text-primary">arrow_forward_ios</span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <!-- Modal Footer Actions -->
+    <div class="mt-8 pt-6 border-t border-outline-variant/10 flex gap-3">
+      <button class="flex-1 py-3 bg-surface-container-highest text-on-surface-variant text-xs tracking-widest font-bold uppercase rounded-lg hover:bg-surface-variant transition-all">Cancel</button>
+      <button class="flex-1 py-3 bg-primary text-on-primary text-xs tracking-widest font-bold uppercase rounded-lg hover:shadow-[0_0_20px_#acead3] transition-all">Confirm Role</button>
+    </div>
+    <!-- Absolute Corner Decorations -->
+    <div class="absolute top-0 left-0 w-8 h-8 border-t border-l border-primary/20 rounded-tl-[24px]"></div>
+    <div class="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-primary/20 rounded-br-[24px]"></div>
+  </div>
+</div>

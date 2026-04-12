@@ -18,6 +18,6 @@ class Form::SelectModalComponent < ViewComponent::Base
   end
 
   def field_id
-    "#{@form.object_name}_#{@attribute}"
+    "#{@form.object_name}_#{@form.object.id}_#{@attribute}"
   end
 end

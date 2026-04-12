@@ -19,7 +19,7 @@ class Form::SelectModalComponentTest < ViewComponent::TestCase
     ))
 
     assert_selector "[data-controller='select-modal']"
-    assert_selector "input[type='hidden'][name='user[role]'][value='user']", visible: :hidden
+    assert_selector "##{"user_#{users(:two).id}_role"}[name='user[role]'][value='user']", visible: :hidden
     assert_selector "[data-option-value='admin']"
     assert_selector "[data-option-value='user']"
     assert_selector "[data-action='click->select-modal#selectOption']"

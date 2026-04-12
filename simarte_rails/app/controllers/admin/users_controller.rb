@@ -13,6 +13,6 @@ class Admin::UsersController < Admin::BaseController
   private
 
   def user_params
-    params.expect(user: [:role])
+    params.expect(user: [ :role ])
   end
 end

@@ -91,6 +91,15 @@ docker compose exec web bin/rails test
 bin/rails test
 ```
 
+**Stimulus (JavaScript)** unit tests use [Vitest](https://vitest.dev/). From `simarte_rails/`:
+
+```bash
+npm install
+npm run test:js
+```
+
+In Docker (if Node/npm are available in the image, or run on the host from `simarte_rails/`).
+
 ## Useful commands
 
 | Task | Command |

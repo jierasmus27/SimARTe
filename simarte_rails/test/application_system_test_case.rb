@@ -6,7 +6,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # Selenium talks to a separate Puma thread; transactional tests can hide fixture data from the server.
   self.use_transactional_tests = false
 
-  driven_by :selenium, using: :headless_chrome, screen_size: [1400, 900] do |options|
+  driven_by :selenium, using: :headless_chrome, screen_size: [ 1400, 900 ] do |options|
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")

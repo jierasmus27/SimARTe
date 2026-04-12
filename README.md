@@ -85,11 +85,13 @@ Ensure Redis is running if you use Sidekiq or features that depend on it.
 
 ```bash
 # Inside Docker
-docker compose exec web bin/rails test
+docker compose exec web bin/rails test:all
 
 # Locally (from simarte_rails/)
-bin/rails test
+bin/rails test:all
 ```
+
+`test:all` runs non-system tests and **system** (browser) tests. Use `bin/rails test` for everything except system tests, or `bin/rails test:system` for browser tests only.
 
 **Stimulus (JavaScript)** unit tests use [Vitest](https://vitest.dev/). From `simarte_rails/`:
 

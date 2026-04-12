@@ -1,0 +1,1 @@
+#<ActionController::Parameters {"_method" => "put", "authenticity_token" => "UwrR-tUMalenj1N4YBGPm4uX5JKKIYbfKU8bx-waB4002UNjbji8AcCwic4GN1v-RsV_zpLf8TVoXJP-d5DYgw", "user" => #<ActionController::Parameters {"role" => "admin"} permitted: false>, "controller" => "admin/users", "action" => "update", "id" => "5"} permitted: false>

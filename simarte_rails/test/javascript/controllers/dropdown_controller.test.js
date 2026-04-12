@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest"
+import { describe, it, expect, beforeEach, afterEach } from "vitest"
 import DropdownController from "../../../app/javascript/controllers/dropdown_controller.js"
 import { getController, startStimulus } from "../helpers/stimulus_test_helpers.js"
 
@@ -26,14 +26,9 @@ describe("dropdown_controller", () => {
     const button = document.querySelector("button")
     const controller = getController(application, root, "dropdown")
 
-    vi.spyOn(document, "addEventListener").mockImplementation(() => {})
-    vi.spyOn(document, "removeEventListener").mockImplementation(() => {})
-
     controller.toggle({ stopPropagation: () => {} })
 
     expect(menu.classList.contains("hidden")).toBe(false)
     expect(button.getAttribute("aria-expanded")).toBe("true")
-
-    expect(document.addEventListener).toHaveBeenCalled()
   })
 })

@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     include: ["test/javascript/**/*.test.js"],
-    pool: "forks"
+    // threads pool avoids fork teardown issues in some CI/sandbox environments
+    pool: "threads"
   }
 })

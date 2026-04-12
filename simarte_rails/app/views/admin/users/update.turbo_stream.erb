@@ -1,3 +1,0 @@
-<%= turbo_stream.replace dom_id(@user, :table_row) do %>
-  <%= render Admin::UserManagement::TableRowComponent.new(user: @user, services: @services) %>
-<% end %>

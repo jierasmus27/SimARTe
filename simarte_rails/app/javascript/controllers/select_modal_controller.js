@@ -8,11 +8,15 @@ export default class extends Controller {
     this.backgroundTarget.classList.remove("hidden")
   }
 
-  close(event) {
+  dismissBackground(event) {
     if (!this.contentTarget.contains(event.target)) {
-      event.stopPropagation()
-      this.backgroundTarget.classList.add("hidden")
+      this.dismiss(event)
     }
+  }
+
+  dismiss(event) {
+    event.stopPropagation()
+    this.backgroundTarget.classList.add("hidden")
   }
 
   selectOption(event) {

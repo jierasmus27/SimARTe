@@ -5,19 +5,22 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def update
-    user = authorize User.find(params.expect(:id))
-
-    unless user.update(user_params)
-      redirect_to admin_users_path, alert: user.errors.full_messages.to_sentence
-      return
-    end
-
-    @user = User.includes(:services, subscriptions: :service).find(user.id)
     @services = Service.order(:name)
+    @user = authorize User.find(params.expect(:id))
 
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to admin_users_path, notice: "User updated successfully" }
+    if @user.update(user_params)
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            helpers.dom_id(@user, :table_row),
+            partial: "admin/users/table_row",
+            locals: { user: @user, services: @services }
+          )
+        end
+        format.html { redirect_to admin_users_path }
+      end
+    else
+      redirect_to admin_users_path, alert: @user.errors.full_messages.to_sentence
     end
   end
 

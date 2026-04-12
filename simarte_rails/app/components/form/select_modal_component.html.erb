@@ -11,16 +11,17 @@
   <div
     class="fixed hidden inset-0 z-[100] flex items-center justify-center bg-[#000000]/30"
     data-select-modal-target="background"
-    data-action="click->select-modal#close">
+    data-action="click->select-modal#dismissBackground">
     <!-- Modal Content -->
     <div
       class="w-[500px] modal-blur glass-panel rounded-[24px] border border-[#acead3]/30 glow-border p-8 relative shadow-[0px_15px_30px_rgba(172,234,211,0.15)]"
       data-select-modal-target="content"
     >
       <button
-        class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 hover:scale-110 transition-all duration-200 z-[110]"
-        data-action="click->select-modal#close"
-        data-aria-label="Close"
+        class="cursor-pointer absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 hover:scale-110 transition-all duration-200 z-[110]"
+        data-action="click->select-modal#dismiss"
+        aria-label="Close"
+        type="button"
       >
         <span class="material-symbols-outlined text-lg font-bold">close</span>
       </button>

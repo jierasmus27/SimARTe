@@ -1,6 +1,9 @@
 # SimARTe
+
 Web application for managing users, service subscriptions, and admin workflows. The app is a **Rails 8** monolith with **Hotwire** (Turbo + Stimulus), **ViewComponent**, **Tailwind CSS**, and **Devise** authentication.
+
 ## Tech stack
+
 | Area | Choice |
 |------|--------|
 | Framework | Ruby on Rails ~> 8.1 |
@@ -9,16 +12,28 @@ Web application for managing users, service subscriptions, and admin workflows. 
 | Frontend | Importmap, Turbo, Stimulus, Tailwind (`tailwindcss-rails`), Propshaft |
 | UI | ViewComponent |
 | Auth | Devise |
+
 Services defined in Docker Compose: **web** (Rails via `bin/dev`), **db** (Postgres), **redis**, **sidekiq**.
+
 ## Repository layout
-SimARTe/ ├── docker-compose.yml # Postgres, Redis, web, Sidekiq └── simarte_rails/ # Rails application (root for local non-Docker work)
+
+```
+SimARTe/
+├── docker-compose.yml    # Postgres, Redis, web, Sidekiq
+└── simarte_rails/        # Rails application (root for local non-Docker work)
+```
 
 ## Prerequisites
+
 - [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/)
 - (Optional) Ruby 3.4+ and PostgreSQL / Redis if you run the app without Docker
+
 ## Quick start (Docker)
+
 1. **Clone** the repository.
+
 2. **Configure environment variables** used by Compose (create a `.env` in the repo root or export them). Example values:
+
    ```bash
    POSTGRES_USER=postgres
    POSTGRES_PASSWORD=postgres
@@ -27,44 +42,82 @@ SimARTe/ ├── docker-compose.yml # Postgres, Redis, web, Sidekiq └── 
    DATABASE_USER=postgres
    DATABASE_PASSWORD=postgres
    REDIS_URL=redis://redis:6379/0
-Align these with config/database.yml and any Redis URL your app expects.
+   ```
 
-Build and start services:
+   Align these with `config/database.yml` and any Redis URL your app expects.
 
-docker compose up --build
-Prepare the database (first run, or after schema changes):
+3. **Build and start** services:
 
-docker compose exec web bin/rails db:prepare
-Optionally load seed data:
+   ```bash
+   docker compose up --build
+   ```
 
-docker compose exec web bin/rails db:seed
-Open http://localhost:3000 in your browser.
+4. **Prepare the database** (first run, or after schema changes):
 
-The web service runs bin/dev (Foreman + Procfile.dev), which starts the Rails server in the container.
+   ```bash
+   docker compose exec web bin/rails db:prepare
+   ```
 
-Development without Docker
-From simarte_rails/:
+   Optionally load seed data:
 
+   ```bash
+   docker compose exec web bin/rails db:seed
+   ```
+
+5. Open **http://localhost:3000** in your browser.
+
+The `web` service runs **`bin/dev`** (Foreman + `Procfile.dev`), which starts the Rails server in the container.
+
+## Development without Docker
+
+From `simarte_rails/`:
+
+```bash
 bundle install
-cp config/database.yml # configure local Postgres if needed
+# configure config/database.yml for local Postgres if needed
 bin/rails db:prepare
 bin/dev
+```
+
 Ensure Redis is running if you use Sidekiq or features that depend on it.
 
-Tests
-# Inside Docker
-docker compose exec web bin/rails test
-# Locally (from simarte_rails/)
-bin/rails test
-Useful commands
-Task	Command
-Rails console	docker compose exec web bin/rails console
-Migrations	docker compose exec web bin/rails db:migrate
-Sidekiq UI	Mounted at /sidekiq (configure access appropriately in production)
-Health check
-GET /up returns the Rails health check (useful for load balancers and uptime probes).
+## Tests
 
-License
+```bash
+# Inside Docker
+docker compose exec web bin/rails test:all
+
+# Locally (from simarte_rails/)
+bin/rails test:all
+```
+
+`test:all` runs non-system tests and **system** (browser) tests. Use `bin/rails test` for everything except system tests, or `bin/rails test:system` for browser tests only.
+
+**Stimulus (JavaScript)** unit tests use [Vitest](https://vitest.dev/). From `simarte_rails/`:
+
+```bash
+npm install
+npm run test:js
+```
+
+In Docker (if Node/npm are available in the image, or run on the host from `simarte_rails/`).
+
+## Useful commands
+
+| Task | Command |
+|------|---------|
+| Rails console | `docker compose exec web bin/rails console` |
+| Migrations | `docker compose exec web bin/rails db:migrate` |
+| Sidekiq UI | Mounted at `/sidekiq` (configure access appropriately in production) |
+
+## Health check
+
+`GET /up` returns the Rails health check (useful for load balancers and uptime probes).
+
+## License
+
 Add your license here (e.g. MIT, proprietary).
 
-Contributing — Add your branch naming, PR, and code style expectations here if applicable.
+## Contributing
+
+Add your branch naming, PR, and code style expectations here if applicable.

@@ -17,9 +17,24 @@
     </div>
   </td>
   <td class="px-6 py-5">
-    <span
-      class="inline-flex items-center px-2 py-0.5 rounded-sm text-[10px] font-bold uppercase tracking-tight bg-primary/10 text-primary border border-primary/20 font-['Space_Grotesk']">User
-      Role</span>
+    <%= form_with(
+      model: user,
+      url: admin_user_path(user),
+      method: :put,
+      data: {
+        controller: "auto-submit",
+        action: "selected->auto-submit#submit"
+      },
+      class: "inline-flex justify-center"
+    ) do |f| %>
+      <%= render Form::SelectModalComponent.new(
+        form: f,
+        attribute: :role,
+        selected_value: user.role,
+        options: User.roles.keys.sort,
+        header: "Select Operational Role"
+      ) %>
+    <% end %>
   </td>
   <% services.each do |service| %>
     <td

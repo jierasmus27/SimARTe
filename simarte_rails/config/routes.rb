@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :subscriptions, only: %i[create destroy]
-    resources :users, only: :index
+    resources :users, only: %i[index update]
 
     get "dashboard", to: "dashboard#show"
     get "services", to: "services#show"

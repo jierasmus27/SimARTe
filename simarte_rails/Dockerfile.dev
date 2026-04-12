@@ -12,7 +12,12 @@ RUN apt-get update -qq && apt-get install -y \
     imagemagick \
     libxml2-dev \
     libxslt-dev \
+    chromium \
+    chromium-driver \
     && rm -rf /var/lib/apt/lists/*
+
+# Selenium / system tests (headless Chromium in Docker)
+ENV CHROME_BIN=/usr/bin/chromium
 
 # Set working directory
 WORKDIR /app

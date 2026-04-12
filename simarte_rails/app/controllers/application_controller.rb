@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   after_action :verify_authorized, if: :verify_authorized_needed?
   after_action :verify_policy_scoped, if: :verify_policy_scoped_needed?
 
@@ -13,6 +15,13 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, unless: :devise_controller?
 
   protected
+
+  def user_not_authorized
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: "You are not authorized to perform this action." }
+      format.turbo_stream { head :forbidden }
+    end
+  end
 
   def authenticate_user!
     unless user_signed_in?

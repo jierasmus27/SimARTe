@@ -57,4 +57,14 @@ class Admin::UsersTest < ActionDispatch::IntegrationTest
     assert_replaces_user_table_row(target)
     assert_predicate target.reload, :user?
   end
+
+  test "admin cannot demote self from admin to user" do
+    admin = users(:one)
+    sign_in admin
+
+    put_user_role(admin, "user")
+
+    assert_response :forbidden
+    assert_predicate admin.reload, :admin?
+  end
 end

@@ -6,9 +6,12 @@ class Admin::UsersController < Admin::BaseController
 
   def update
     @services = Service.order(:name)
-    @user = authorize User.find(params.expect(:id))
+    @user = User.find(params.expect(:id))
+    permitted = user_params
+    @user.assign_attributes(permitted)
+    authorize @user
 
-    if @user.update(user_params)
+    if @user.save
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(

@@ -43,7 +43,7 @@
       data-user-id="<%= user.id %>"
     >
       <% if (sub = subscription_for(service)) %>
-        <%= form_with url: admin_subscription_path(sub), method: :delete, data: { turbo: true, controller: "subscription-toggle" }, class: "inline-flex justify-center" do %>
+        <%= form_with url: admin_subscription_path(sub), method: :delete, data: { turbo: true, turbo_scroll: false, controller: "subscription-toggle" }, class: "inline-flex justify-center" do %>
           <label class="relative inline-flex cursor-pointer items-center">
             <input
               type="checkbox"
@@ -58,7 +58,7 @@
           </label>
         <% end %>
       <% else %>
-        <%= form_with url: admin_subscriptions_path, method: :post, data: { turbo: true, controller: "subscription-toggle" }, class: "inline-flex justify-center" do %>
+        <%= form_with url: admin_subscriptions_path, method: :post, data: { turbo: true, turbo_scroll: false, controller: "subscription-toggle" }, class: "inline-flex justify-center" do %>
           <%= hidden_field_tag :user_id, user.id %>
           <%= hidden_field_tag :service_id, service.id %>
           <label class="relative inline-flex cursor-pointer items-center">

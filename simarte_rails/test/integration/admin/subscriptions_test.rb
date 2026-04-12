@@ -22,10 +22,13 @@ class Admin::SubscriptionsTest < ActionDispatch::IntegrationTest
     sign_in users(:one)
 
     assert_difference -> { Subscription.count }, 1 do
-      post admin_subscriptions_path, params: { user_id: users(:one).id, service_id: services(:gis).id }
+      post admin_subscriptions_path(format: :turbo_stream), params: { user_id: users(:one).id, service_id: services(:gis).id }
     end
 
-    assert_redirected_to admin_users_path
+    assert_response :success
+    assert_includes response.media_type, "turbo-stream"
+    assert_match(/<turbo-stream/, response.body)
+    assert_match(/action="replace"/, response.body)
     assert Subscription.exists?(user: users(:one), service: services(:gis))
   end
 
@@ -34,10 +37,13 @@ class Admin::SubscriptionsTest < ActionDispatch::IntegrationTest
     sign_in users(:one)
 
     assert_difference -> { Subscription.count }, -1 do
-      delete admin_subscription_path(subscription)
+      delete admin_subscription_path(subscription, format: :turbo_stream)
     end
 
-    assert_redirected_to admin_users_path
+    assert_response :success
+    assert_includes response.media_type, "turbo-stream"
+    assert_match(/<turbo-stream/, response.body)
+    assert_match(/action="replace"/, response.body)
     assert_not Subscription.exists?(subscription.id)
   end
 
@@ -46,10 +52,12 @@ class Admin::SubscriptionsTest < ActionDispatch::IntegrationTest
     sign_in users(:one)
 
     assert_no_difference -> { Subscription.count } do
-      post admin_subscriptions_path, params: { user_id: users(:one).id, service_id: services(:ar).id }
+      post admin_subscriptions_path(format: :turbo_stream), params: { user_id: users(:one).id, service_id: services(:ar).id }
     end
 
-    assert_redirected_to admin_users_path
-    assert_equal "User has already been taken", flash[:alert]
+    assert_response :success
+    assert_includes response.media_type, "turbo-stream"
+    assert_match(/action="append"/, response.body)
+    assert_match(/User has already been taken/, response.body)
   end
 end

@@ -2,7 +2,7 @@
 
 Web application for managing users, service subscriptions, and admin workflows. The app is a **Rails 8** monolith with **Hotwire** (Turbo + Stimulus), **ViewComponent**, **Tailwind CSS**, and **Devise** authentication.
 
-## Tech stack
+## Tech stack (To be completed)
 
 | Area | Choice |
 |------|--------|

@@ -26,15 +26,18 @@
     <!-- Search & Tools -->
     <div
       class="p-5 bg-surface-container-low border-b border-outline-variant/5 flex flex-wrap items-center justify-between gap-4">
-      <div class="relative flex-1 min-w-[320px]">
-        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary"
+      <%= form_with url: admin_users_path, method: :get, local: true, class: "relative flex-1 min-w-[320px]", data: { controller: "admin-user-search" } do %>
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary pointer-events-none z-10"
           data-icon="manage_search">manage_search</span>
-        <input
-          class="w-full bg-surface-container-lowest border-none text-sm py-2.5 pl-10 pr-4 rounded-sm focus:ring-1 focus:ring-primary font-['Space_Grotesk']"
-          placeholder="Search by name, role, or active service..." type="text" />
-      </div>
+        <%= text_field_tag :q, @q,
+          class: "w-full bg-surface-container-lowest border-none text-sm py-2.5 pl-10 pr-4 rounded-sm focus:ring-1 focus:ring-primary font-['Space_Grotesk']",
+          placeholder: "Search by name, role, or active service...",
+          type: "search",
+          autocomplete: "off",
+          data: { admin_user_search_target: "input", action: "input->admin-user-search#scheduleSubmit" } %>
+      <% end %>
       <div class="flex items-center gap-4 text-xs font-label uppercase tracking-widest text-on-surface-variant">
-        <span>Total Users: <%= @users.count %></span>
+        <span>Total Users: <%= @users.size %></span>
         <span class="text-primary opacity-40">•</span>
         <span>Active Sessions: 12</span>
       </div>
@@ -61,9 +64,9 @@
               Actions</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-outline-variant/5">
+        <tbody id="user_management_table_body" class="divide-y divide-outline-variant/5">
           <% @users.each do |user| %>
-            <%= render Admin::UserManagement::TableRowComponent.new(user: user, services: @services) %>
+            <%= render Admin::UserManagement::TableRowComponent.new(user: user, services: @services, search_query: @q) %>
           <% end %>
         </tbody>
       </table>

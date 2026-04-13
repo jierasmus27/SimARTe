@@ -4,7 +4,7 @@
     data-action="click->select-modal#open">
     <span
       class="cursor-pointer inline-flex items-center px-2 py-0.5 rounded-sm text-[10px] font-bold uppercase tracking-tight bg-primary/10 text-primary border border-primary/20 font-['Space_Grotesk']">
-      <div data-select-modal-target="selectedLabel"><%= selected_value.humanize %></div>
+      <div data-select-modal-target="selectedLabel"><%= helpers.highlight_search(selected_value.humanize, search_query) %></div>
     </span>
   </button>
 
@@ -52,7 +52,7 @@
                 <span class="material-symbols-outlined">construction</span>
               </div>
               <div>
-                <p class="text-sm font-bold tracking-wide"><%= option.humanize %></p>
+                <p class="text-sm font-bold tracking-wide"><%= helpers.highlight_search(option.humanize, search_query) %></p>
                 <p class="text-[12px] text-on-surface-variant tracking-tighter"><%= t("activerecord.attributes.user.role.descriptions.#{option}") %></p>
               </div>
             </div>

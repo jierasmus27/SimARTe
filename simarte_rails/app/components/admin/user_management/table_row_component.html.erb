@@ -11,8 +11,8 @@
           data-icon="account_circle">account_circle</span>
       </div>
       <div>
-        <div class="text-sm font-medium text-on-surface"><%= user.full_name %></div>
-        <div class="text-xs text-on-surface-variant font-['Space_Grotesk']"><%= user.email %></div>
+        <div class="text-sm font-medium text-on-surface"><%= helpers.highlight_search(user.full_name, search_query) %></div>
+        <div class="text-xs text-on-surface-variant font-['Space_Grotesk']"><%= helpers.highlight_search(user.email, search_query) %></div>
       </div>
     </div>
   </td>
@@ -32,7 +32,8 @@
         attribute: :role,
         selected_value: user.role,
         options: User.roles.keys.sort,
-        header: "Select Operational Role"
+        header: "Select Operational Role",
+        search_query: search_query
       ) %>
     <% end %>
   </td>

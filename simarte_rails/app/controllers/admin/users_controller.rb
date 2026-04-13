@@ -1,7 +1,8 @@
 class Admin::UsersController < Admin::BaseController
   def index
     @services = Service.order(:name)
-    @users = policy_scope(User).includes(:services, subscriptions: :service).order(:email)
+    @q = params[:q].to_s.strip
+    @users = policy_scope(User).search(@q).includes(:services, subscriptions: :service).order(:email)
   end
 
   def update

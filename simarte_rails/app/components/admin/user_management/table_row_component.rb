@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class Admin::UserManagement::TableRowComponent < ViewComponent::Base
-  def initialize(user:, services:)
+  def initialize(user:, services:, search_query: nil)
     @user = user
     @services = services
+    @search_query = search_query.presence
   end
 
   private
 
-  attr_reader :user, :services
+  attr_reader :user, :services, :search_query
 
   def subscribed?(service_id)
     subscriptions_by_service_id.key?(service_id)

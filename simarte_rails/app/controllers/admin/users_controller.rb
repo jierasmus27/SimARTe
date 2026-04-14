@@ -2,7 +2,8 @@ class Admin::UsersController < Admin::BaseController
   def index
     @services = Service.order(:name)
     @q = params[:q].to_s.strip
-    @users = policy_scope(User).search(@q).includes(:services, subscriptions: :service).order(:email)
+    users_scope = policy_scope(User).search(@q).includes(:services, subscriptions: :service).order(:email)
+    @pagy, @users = pagy(users_scope)
     @user = User.new
   end
 
@@ -15,15 +16,16 @@ class Admin::UsersController < Admin::BaseController
     if @user.save
       @new_row_user = @user
       @user = User.new
+      assign_index_pagy_for_stream
     end
 
     respond_to do |format|
       format.turbo_stream { render :create }
       format.html do
         if @new_row_user
-          redirect_to admin_users_path(q: @q), notice: "User created successfully."
+          redirect_to admin_users_path(**index_redirect_params), notice: "User created successfully."
         else
-          redirect_to admin_users_path(q: @q), alert: @user.errors.full_messages.to_sentence
+          redirect_to admin_users_path(**index_redirect_params), alert: @user.errors.full_messages.to_sentence
         end
       end
     end
@@ -53,6 +55,16 @@ class Admin::UsersController < Admin::BaseController
   end
 
   private
+
+  def index_redirect_params
+    { q: @q.presence, page: params[:page].presence }.compact
+  end
+
+  def assign_index_pagy_for_stream
+    users_scope = policy_scope(User).search(@q).includes(:services, subscriptions: :service).order(:email)
+    page = (params[:page].presence || 1).to_i
+    @pagy, = pagy(users_scope, page: page)
+  end
 
   def user_create_params
     params.expect(user: [ :email, :first_name, :last_name, :role, :password, :password_confirmation ])

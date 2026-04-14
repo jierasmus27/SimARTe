@@ -181,3 +181,52 @@ input[type="button"]:disabled,
 input[type="reset"]:disabled {
   cursor: not-allowed;
 }
+
+/* Pagy (admin user list) — matches mint accent / Space Grotesk */
+nav.pagy.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-on-surface-variant, #9aa0a6);
+}
+
+nav.pagy.nav a:not(.gap) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.125rem;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+nav.pagy.nav a:not(.gap):hover[href] {
+  background-color: color-mix(in oklab, var(--color-on-surface, #e8eaed) 8%, transparent);
+}
+
+nav.pagy.nav a:not(.gap):not([href]) {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+nav.pagy.nav a:not(.gap).current {
+  background-color: #96d3bd;
+  color: #0c0e10;
+}
+
+nav.pagy.nav a.gap {
+  cursor: default;
+  padding: 0 0.25rem;
+  opacity: 0.6;
+}
+
+.pagy.info {
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}

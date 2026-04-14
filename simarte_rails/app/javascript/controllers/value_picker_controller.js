@@ -10,7 +10,8 @@ export default class extends Controller {
       this.hiddenInputTarget.value = value
     }
     if (this.hasLabelTarget) {
-      this.labelTarget.textContent = value
+      const labelText = event.currentTarget.dataset.optionLabel ?? value
+      this.labelTarget.textContent = labelText
     }
     this.element.dispatchEvent(new Event("change", { bubbles: true }))
     this.dispatch("selected", {

@@ -14,6 +14,14 @@ export default class extends Controller {
     }
   }
 
+  closeMenu(event) {
+    event.stopPropagation()
+    if (!this.hasMenuTarget) return
+    this.menuTarget.classList.add("hidden")
+    this._setAria(false)
+    document.removeEventListener("click", this._outside)
+  }
+
   connect() {
     this._outside = this._outside.bind(this)
   }

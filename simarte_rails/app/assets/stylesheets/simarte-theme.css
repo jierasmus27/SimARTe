@@ -49,6 +49,7 @@
       linear-gradient(to bottom, color-mix(in oklab, var(--color-primary) 4%, transparent) 1px, transparent 1px);
     background-size: 60px 60px;
   }
+
 }
 
 /*
@@ -157,4 +158,26 @@ input.login-field:autofill:active {
   -webkit-text-size-adjust: 100% !important;
   text-size-adjust: 100% !important;
   box-shadow: inset 0 0 0 100px #060708;
+}
+
+/*
+ * Buttons: pointer cursor app-wide (openspec admin-panel — Buttons cursor).
+ * Loaded after tailwind.css so these beat preflight where needed.
+ */
+button:not(:disabled):not([disabled]),
+[role="button"]:not([aria-disabled="true"]),
+input[type="submit"]:not(:disabled):not([disabled]),
+input[type="button"]:not(:disabled):not([disabled]),
+input[type="reset"]:not(:disabled):not([disabled]) {
+  cursor: pointer;
+}
+
+button:disabled,
+button[disabled],
+[role="button"][aria-disabled="true"],
+input[type="submit"]:disabled,
+input[type="submit"][disabled],
+input[type="button"]:disabled,
+input[type="reset"]:disabled {
+  cursor: not-allowed;
 }

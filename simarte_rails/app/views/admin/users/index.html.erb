@@ -12,11 +12,7 @@
         <span class="material-symbols-outlined text-lg" data-icon="filter_list">filter_list</span>
         Filter
       </button>
-      <button
-        class="bg-[#96d3bd] text-[#0c0e10] px-5 py-2.5 text-sm font-bold flex items-center gap-2 rounded-sm active:scale-95 transition-transform font-['Space_Grotesk']">
-        <span class="material-symbols-outlined text-lg" data-icon="person_add">person_add</span>
-        Add User
-      </button>
+      <%= render Admin::UserManagement::AddUserModalComponent.new(user: @user, search_query: @q) %>
     </div>
   </div>
 </div>

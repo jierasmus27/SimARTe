@@ -1,0 +1,117 @@
+<%# locals: user:, search_query: (optional), form_id: (optional, default add_user_form) %>
+<% form_id ||= "add_user_form" %>
+<%= form_with model: user, url: admin_users_path, id: form_id, class: "px-8 py-6 space-y-6", data: { turbo: true } do |f| %>
+  <% if search_query.present? %>
+    <%= hidden_field_tag :q, search_query %>
+  <% end %>
+
+  <% if user.errors.any? %>
+    <div class="rounded-lg border border-error/40 bg-error/10 px-4 py-3 text-sm text-error" role="alert">
+      <ul class="list-disc list-inside space-y-1">
+        <% user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-4">
+    <div class="group">
+      <%= f.label :email, "Email", class: "block text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1.5 ml-1" %>
+      <div class="relative">
+        <%= f.email_field :email,
+          class: "w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:bg-primary/5 transition-all duration-300",
+          placeholder: "operator@simarte.io",
+          autocomplete: "email" %>
+        <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-focus-within:w-full transition-all duration-500 shadow-[0_0_10px_#acead3] pointer-events-none"></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <%= f.label :first_name, class: "block text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1.5 ml-1" %>
+      <div class="relative">
+        <%= f.text_field :first_name,
+          class: "w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:bg-primary/5 transition-all duration-300",
+          autocomplete: "given-name" %>
+        <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-focus-within:w-full transition-all duration-500 shadow-[0_0_10px_#acead3] pointer-events-none"></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <%= f.label :last_name, class: "block text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1.5 ml-1" %>
+      <div class="relative">
+        <%= f.text_field :last_name,
+          class: "w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:bg-primary/5 transition-all duration-300",
+          autocomplete: "family-name" %>
+        <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-focus-within:w-full transition-all duration-500 shadow-[0_0_10px_#acead3] pointer-events-none"></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <%= f.label :role, class: "block text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1.5 ml-1" %>
+      <div
+        class="relative"
+        data-controller="dropdown value-picker"
+      >
+        <%= f.hidden_field :role, data: { value_picker_target: "hiddenInput" } %>
+        <button
+          type="button"
+          class="flex w-full items-center bg-surface-container-highest border border-primary/20 rounded-lg px-4 py-3 text-on-surface transition-all duration-300 hover:border-primary/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          data-action="click->dropdown#toggle"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+        >
+          <span class="material-symbols-outlined text-sm text-primary/60 mr-2 shrink-0" aria-hidden="true">search</span>
+          <span class="flex-1 text-left text-xs font-bold uppercase tracking-wider" data-value-picker-target="label">
+            <%= user.role.present? ? user.role.to_s.humanize : "Select role" %>
+          </span>
+          <span class="material-symbols-outlined text-sm text-primary/60 ml-2 shrink-0" aria-hidden="true">expand_more</span>
+        </button>
+        <div
+          class="hidden absolute z-[110] w-full mt-2 py-2 celestial-blur bg-surface-container/90 rounded-lg border border-primary/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden"
+          data-dropdown-target="menu"
+          role="listbox"
+        >
+          <div class="max-h-48 overflow-y-auto custom-scrollbar">
+            <% User.roles.keys.sort.each do |role_key| %>
+              <% icon = { "user" => "person", "admin" => "admin_panel_settings" }.fetch(role_key.to_s, "badge") %>
+              <% label_text = role_key.to_s.humanize %>
+              <button
+                type="button"
+                role="option"
+                class="w-full flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-primary/10 hover:text-primary transition-colors text-left group/item"
+                data-action="click->value-picker#select click->dropdown#closeMenu"
+                data-option-value="<%= role_key %>"
+                data-option-label="<%= label_text %>"
+              >
+                <span class="material-symbols-outlined text-sm opacity-60 group-hover/item:opacity-100" aria-hidden="true"><%= icon %></span>
+                <span class="text-xs font-bold uppercase tracking-wider"><%= label_text %></span>
+              </button>
+            <% end %>
+          </div>
+        </div>
+        <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-focus-within:w-full transition-all duration-500 shadow-[0_0_10px_#acead3] pointer-events-none"></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <%= f.label :password, class: "block text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1.5 ml-1" %>
+      <div class="relative">
+        <%= f.password_field :password,
+          class: "w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:bg-primary/5 transition-all duration-300",
+          autocomplete: "new-password" %>
+        <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-focus-within:w-full transition-all duration-500 shadow-[0_0_10px_#acead3] pointer-events-none"></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <%= f.label :password_confirmation, "Confirm password", class: "block text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1.5 ml-1" %>
+      <div class="relative">
+        <%= f.password_field :password_confirmation,
+          class: "w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-on-surface placeholder:text-outline-variant focus:ring-0 focus:bg-primary/5 transition-all duration-300",
+          autocomplete: "new-password" %>
+        <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-focus-within:w-full transition-all duration-500 shadow-[0_0_10px_#acead3] pointer-events-none"></div>
+      </div>
+    </div>
+  </div>
+<% end %>

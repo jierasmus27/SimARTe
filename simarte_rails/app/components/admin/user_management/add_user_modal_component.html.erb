@@ -1,0 +1,45 @@
+<div id="add_user_modal">
+  <%= render Ui::ModalDialogComponent.new(frame_variant: :glass) do |modal| %>
+    <%= modal.with_trigger_element do %>
+      <button
+        type="button"
+        class="bg-[#96d3bd] text-[#0c0e10] px-5 py-2.5 text-sm font-bold flex items-center gap-2 rounded-sm active:scale-95 transition-transform font-['Space_Grotesk']">
+        <span class="material-symbols-outlined text-lg" data-icon="person_add">person_add</span>
+        Add User
+      </button>
+    <% end %>
+
+    <%= modal.with_header do %>
+      <div class="mb-8 text-center">
+        <div class="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl mb-4 border border-primary/20">
+          <span class="material-symbols-outlined text-primary text-2xl" aria-hidden="true">person_add</span>
+        </div>
+        <h2 class="text-2xl font-bold font-headline tracking-tight text-on-surface">Create New Operator</h2>
+        <p class="text-on-surface-variant text-sm mt-1">System Provisioning Interface</p>
+      </div>
+    <% end %>
+
+    <%= modal.with_body do %>
+      <%= render partial: "admin/users/form", locals: { user: @user, search_query: @search_query, form_id: form_id } %>
+    <% end %>
+
+    <%= modal.with_footer do %>
+      <div class="px-8 py-6 bg-surface-container-low/50 flex gap-4 border-t border-primary/10">
+        <button
+          type="button"
+          class="flex-1 px-4 py-3 border border-primary/20 rounded-lg text-primary text-[0.6875rem] uppercase tracking-widest font-bold hover:bg-primary/5 transition-all"
+          data-action="click->modal-dialog#dismiss"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          form="<%= form_id %>"
+          class="flex-1 px-4 py-3 bg-primary text-on-primary rounded-lg text-[0.6875rem] uppercase tracking-widest font-bold shadow-[0_0_20px_rgba(172,234,211,0.3)] hover:scale-[1.02] active:scale-95 transition-all"
+        >
+          Create User
+        </button>
+      </div>
+    <% end %>
+  <% end %>
+</div>

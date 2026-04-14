@@ -1,0 +1,11 @@
+<% if @with_overlay %>
+  <%= tag.div(**overlay_tag_attributes) do %>
+    <%= tag.div(**panel_tag_attributes) do %>
+      <%= content %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= tag.div(**panel_tag_attributes) do %>
+    <%= content %>
+  <% end %>
+<% end %>

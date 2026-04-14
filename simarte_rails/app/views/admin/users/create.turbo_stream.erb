@@ -1,4 +1,6 @@
 <% if @new_row_user %>
   <%= turbo_stream.append "user_management_table_body", partial: "admin/users/table_row", locals: { user: @new_row_user, services: @services, search_query: @q } %>
+  <%= turbo_stream.replace "user_management_stats", partial: "admin/users/user_management_stats", locals: { pagy: @pagy } %>
+  <%= turbo_stream.replace "user_management_pagination", partial: "admin/users/user_management_pagination", locals: { pagy: @pagy } %>
 <% end %>
-<%= turbo_stream.replace "add_user_modal", partial: "admin/users/add_user_modal", locals: { user: @user, search_query: @q } %>
+<%= turbo_stream.replace "add_user_modal", partial: "admin/users/add_user_modal", locals: { user: @user, search_query: @q, page: params[:page] } %>

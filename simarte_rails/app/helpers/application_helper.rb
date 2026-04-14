@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  include ::Pagy::Frontend
   # Wraps occurrences of +query+ in +text+ with <mark> (HTML-escaped, safe for user-controlled +query+).
   def highlight_search(text, query)
     text = text.to_s

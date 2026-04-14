@@ -20,7 +20,7 @@
     <% end %>
 
     <%= modal.with_body do %>
-      <%= render partial: "admin/users/form", locals: { user: @user, search_query: @search_query, form_id: form_id } %>
+      <%= render partial: "admin/users/form", locals: { user: @user, search_query: @search_query, page: @page, form_id: form_id } %>
     <% end %>
 
     <%= modal.with_footer do %>

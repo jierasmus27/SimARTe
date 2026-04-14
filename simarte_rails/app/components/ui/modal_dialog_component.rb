@@ -6,9 +6,10 @@ class Ui::ModalDialogComponent < ViewComponent::Base
   renders_one :body
   renders_one :footer
 
-  def initialize(title: "Please select a value", search_query: nil)
+  def initialize(title: "Please select a value", search_query: nil, frame_variant: :glass)
     @title = title
     @search_query = search_query.presence
+    @frame_variant = frame_variant.to_sym
   end
 
   private

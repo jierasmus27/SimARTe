@@ -1,31 +1,15 @@
-<div data-controller="select-modal">
-  <button
-    type="button"
-    data-action="click->select-modal#open">
-    <span
-      class="cursor-pointer inline-flex items-center px-2 py-0.5 rounded-sm text-[10px] font-bold uppercase tracking-tight bg-primary/10 text-primary border border-primary/20 font-['Space_Grotesk']">
-      <div data-select-modal-target="selectedLabel"><%= helpers.highlight_search(selected_value.humanize, search_query) %></div>
-    </span>
-  </button>
-
-  <div
-    class="fixed hidden inset-0 z-[100] flex items-center justify-center bg-[#000000]/30"
-    data-select-modal-target="background"
-    data-action="click->select-modal#dismissBackground">
-    <!-- Modal Content -->
-    <div
-      class="max-w-lg w-full modal-blur glass-panel rounded-[24px] border border-[#acead3]/30 glow-border p-8 relative shadow-[0px_15px_30px_rgba(172,234,211,0.15)]"
-      data-select-modal-target="content"
-    >
-      <button
-        class="cursor-pointer absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 hover:scale-110 transition-all duration-200 z-[110]"
-        data-action="click->select-modal#dismiss"
-        aria-label="Close"
-        type="button"
-      >
-        <span class="material-symbols-outlined text-lg font-bold">close</span>
+<div data-controller="value-picker">
+  <%= render Ui::ModalDialogComponent.new(title: "Please select a value", search_query: search_query) do |modal| %>
+    <%= modal.with_trigger_element do %>
+      <button type="button">
+        <span
+          class="inline-flex items-center px-2 py-0.5 rounded-sm text-[10px] font-bold uppercase tracking-tight bg-primary/10 text-primary border border-primary/20 font-['Space_Grotesk']">
+          <div data-value-picker-target="label"><%= helpers.highlight_search(selected_value.humanize, search_query) %></div>
+        </span>
       </button>
-      <!-- Modal Header -->
+    <% end %>
+
+    <%= modal.with_header do %>
       <div class="mb-8 text-center">
         <div class="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl mb-4 border border-primary/20">
           <span class="material-symbols-outlined text-primary text-2xl">admin_panel_settings</span>
@@ -33,18 +17,19 @@
         <h2 class="text-2xl font-bold font-headline tracking-tight text-on-surface"><%= header %></h2>
         <p class="text-on-surface-variant text-sm mt-1">Assign system permissions and interface layout</p>
       </div>
-      <!-- Role List -->
+    <% end %>
+
+    <%= modal.with_body do %>
       <div class="space-y-3">
         <%= hidden_field_tag(
           field_name,
           selected_value,
           id: field_id,
-          data: { select_modal_target: "selectedValue" }
+          data: { value_picker_target: "hiddenInput" }
         ) %>
         <% options.each do |option| %>
           <div class="group flex items-center justify-between p-4 rounded-xl bg-surface-container-highest/50 border border-outline-variant/10 hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer"
-            data-select-modal-target="option"
-            data-action="click->select-modal#selectOption"
+            data-action="click->value-picker#select click->modal-dialog#dismiss"
             data-option-value="<%= option %>"
           >
             <div class="flex items-center gap-4">
@@ -53,7 +38,7 @@
               </div>
               <div>
                 <p class="text-sm font-bold tracking-wide"><%= helpers.highlight_search(option.humanize, search_query) %></p>
-                <p class="text-[12px] text-on-surface-variant tracking-tighter"><%= t("activerecord.attributes.user.role.descriptions.#{option}") %></p>
+                <p class="text-[12px] text-on-surface-variant tracking-tighter"><%= t("user.role_descriptions.#{option}") %></p>
               </div>
             </div>
             <% if option == selected_value %>
@@ -67,9 +52,11 @@
           </div>
         <% end %>
       </div>
-      <!-- Absolute Corner Decorations -->
+    <% end %>
+
+    <%= modal.with_footer do %>
       <div class="absolute top-0 left-0 w-8 h-8 border-t border-l border-primary/20 rounded-tl-[24px]"></div>
       <div class="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-primary/20 rounded-br-[24px]"></div>
-    </div>
-  </div>
+    <% end %>
+  <% end %>
 </div>

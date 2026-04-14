@@ -5,6 +5,10 @@ class UserPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def create?
+    user.admin?
+  end
+
   def update?
     user.admin? && !demoting_self_admin?
   end

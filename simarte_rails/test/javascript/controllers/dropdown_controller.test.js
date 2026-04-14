@@ -31,4 +31,19 @@ describe("dropdown_controller", () => {
     expect(menu.classList.contains("hidden")).toBe(false)
     expect(button.getAttribute("aria-expanded")).toBe("true")
   })
+
+  it("closeMenu hides menu and sets aria-expanded false", () => {
+    const root = document.querySelector("[data-controller='dropdown']")
+    const menu = document.querySelector("[data-dropdown-target='menu']")
+    const button = document.querySelector("button")
+    const controller = getController(application, root, "dropdown")
+
+    controller.toggle({ stopPropagation: () => {} })
+    expect(menu.classList.contains("hidden")).toBe(false)
+
+    controller.closeMenu({ stopPropagation: () => {} })
+
+    expect(menu.classList.contains("hidden")).toBe(true)
+    expect(button.getAttribute("aria-expanded")).toBe("false")
+  })
 })

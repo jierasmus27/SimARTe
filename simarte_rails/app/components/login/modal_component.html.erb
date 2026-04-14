@@ -1,6 +1,5 @@
 <div data-controller="modal" class="relative w-full">
-  <div class="glass-panel border border-primary/10 p-10 rounded-sm shadow-[0_40px_100px_rgba(0,0,0,0.5)] relative">
-
+  <%= render Ui::ModalFrameComponent.new(variant: :login, with_overlay: false) do %>
     <button
       type="button"
       class="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-sm text-on-surface/50 transition hover:bg-white/5 hover:text-on-surface"
@@ -63,9 +62,8 @@
 
       <%= f.button "INITIALIZE SESSION",
         type: :submit,
-        class: "w-full cursor-pointer border-0 bg-primary px-4 py-5 font-headline text-base font-black text-[#0c0e10] shadow-sm transition hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-0 active:opacity-90 rounded-sm" %>
+        class: "w-full border-0 bg-primary px-4 py-5 font-headline text-base font-black text-[#0c0e10] shadow-sm transition hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-0 active:opacity-90 rounded-sm" %>
 
     <% end %>
-
-  </div>
+  <% end %>
 </div>

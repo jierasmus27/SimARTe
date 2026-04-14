@@ -1,7 +1,7 @@
 # Admin panel
 
 **Spec id:** `admin-panel`
-**Last clarified:** 2026-04-05 — *decisions below are locked for v1.*
+**Last clarified:** 2026-04-12 — *decisions below are locked for v1.*
 
 ## Purpose
 
@@ -16,6 +16,7 @@ Authenticated users open an admin **shell** after login: **sidebar**, **top bar*
 6. **No global search** in the top bar for v1.
 7. **User control:** **Initials** from **required** `first_name` and `last_name` on `users` (migration + validations); see [Decisions (locked)](#decisions-locked).
 8. **Mobile:** **Option A** — hamburger + off-canvas/drawer sidebar on small screens; **no** bottom nav bar in v1.
+9. **Buttons — cursor:** Enabled **buttons** and **submit/button/reset inputs** use **`cursor: pointer`**; **disabled** buttons use **`cursor: not-allowed`**, applied globally (see [Decisions (locked)](#decisions-locked)).
 
 ## Non-normative reference
 
@@ -54,6 +55,11 @@ The **HTML/CSS** in the [reference block](#css-layout-reference-html) below is *
 ### One shell vs two layouts
 
 - **Choice:** **Confirmed** — One admin **shell** (layout wrapping sidebar + top bar). **User management** (and other sections) are **content inside the frame**, not a second full-page layout duplicating the shell.
+
+### Buttons (cursor)
+
+- **Choice:** Use **`cursor: pointer`** for all **enabled** native button controls: `button`, `input[type="submit"]`, `input[type="button"]`, `input[type="reset"]`, and `[role="button"]` when not disabled. Use **`cursor: not-allowed`** when disabled (`disabled`, `[disabled]`, or `[aria-disabled="true"]` on role="button").
+- **Implementation:** Global CSS in [`app/assets/stylesheets/simarte-theme.css`](../../app/assets/stylesheets/simarte-theme.css) (loaded after Tailwind). Interactive **non-button** controls (e.g. clickable `div` rows, `label` for toggles) may still use Tailwind **`cursor-pointer`** at the call site.
 
 ---
 

@@ -16,6 +16,7 @@ Decisions are locked in **Decisions (locked)** in that spec.
 - [ ] **Logout:** User returns to login experience (root/login as per existing Devise behavior).
 - [ ] **Mobile:** Hamburger + off-canvas sidebar (**option A**); no bottom nav in v1.
 - [ ] **ViewComponents:** Extract repeated UI (e.g. shell, sidebar nav link, top bar) per team preference; avoid duplicating large reference HTML blindly.
+- [x] **Button cursor:** Global `cursor: pointer` on enabled buttons / submit inputs; `not-allowed` when disabled (`simarte-theme.css`). Normative requirement §9 in spec.
 - [ ] **Tests:** **System** specs (Capybara) for critical paths: login → see shell; open user menu → logout → see login. Add **request** specs if useful for redirects/namespaced routes. *Avoid duplicating the same behavior in two test types without reason.*
 
 ## Notes

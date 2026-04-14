@@ -2,7 +2,8 @@ en:
   activerecord:
     attributes:
       user:
-        role:
-          descriptions:
-            user: "Basic role for using selected services"
-            admin: "Access to the admin panel and all services"
+        role: "Role"
+  user:
+    role_descriptions:
+      user: "Basic role for using selected services"
+      admin: "Access to the admin panel and all services"

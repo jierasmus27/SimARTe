@@ -1,0 +1,34 @@
+<div data-controller="modal-dialog">
+  <div data-action="click->modal-dialog#open">
+    <%= trigger_element %>
+  </div>
+
+  <%= render Ui::ModalFrameComponent.new(
+    variant: :glass,
+    overlay_extra_class: "hidden",
+    overlay_html_attributes: {
+      data: {
+        modal_dialog_target: "background",
+        action: "click->modal-dialog#dismissBackground"
+      }
+    },
+    panel_html_attributes: {
+      data: { modal_dialog_target: "content" }
+    }
+  ) do %>
+    <button
+      class="cursor-pointer absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 hover:scale-110 transition-all duration-200 z-[110]"
+      data-action="click->modal-dialog#dismiss"
+      aria-label="Close"
+      type="button"
+    >
+      <span class="material-symbols-outlined text-lg font-bold">close</span>
+    </button>
+    <!-- Modal Header -->
+    <%= header %>
+    <!-- Body -->
+    <%= body %>
+    <!-- Footer -->
+    <%= footer %>
+  <% end %>
+</div>

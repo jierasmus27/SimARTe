@@ -1,8 +1,11 @@
-<%# locals: user:, search_query: (optional), form_id: (optional, default add_user_form) %>
+<%# locals: user:, search_query: (optional), page: (optional), form_id: (optional, default add_user_form) %>
 <% form_id ||= "add_user_form" %>
 <%= form_with model: user, url: admin_users_path, id: form_id, class: "px-8 py-6 space-y-6", data: { turbo: true } do |f| %>
   <% if search_query.present? %>
     <%= hidden_field_tag :q, search_query %>
+  <% end %>
+  <% if local_assigns[:page].present? %>
+    <%= hidden_field_tag :page, local_assigns[:page] %>
   <% end %>
 
   <% if user.errors.any? %>

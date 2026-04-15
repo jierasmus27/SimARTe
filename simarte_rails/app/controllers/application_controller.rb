@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  before_action :set_paper_trail_whodunnit
+
   after_action :verify_authorized, if: :verify_authorized_needed?
   after_action :verify_policy_scoped, if: :verify_policy_scoped_needed?
 

@@ -7,6 +7,7 @@ one:
   last_name: User
   role: admin
   encrypted_password: $2a$12$yTmEg18Xzk6LANNSUV9hOeGbwcWSrM9XiP0MUY.Do74O5/N6B9v.S
+  jti: 11111111-1111-4111-8111-111111111111
 
 two:
   email: jane@example.com
@@ -14,3 +15,4 @@ two:
   last_name: Doe
   role: user
   encrypted_password: $2a$12$yTmEg18Xzk6LANNSUV9hOeGbwcWSrM9XiP0MUY.Do74O5/N6B9v.S
+  jti: 22222222-2222-4222-8222-222222222222

@@ -1,4 +1,4 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus";
 
 /**
  * Submit subscription forms only when the checkbox moves in the intended direction:
@@ -7,16 +7,16 @@ import { Controller } from "@hotwired/stimulus"
  */
 export default class extends Controller {
   submitIfChecked(event) {
-    const input = event.currentTarget
+    const input = event.currentTarget;
     if (input.checked) {
-      input.closest("form").requestSubmit()
+      input.closest("form").requestSubmit();
     }
   }
 
   submitIfUnchecked(event) {
-    const input = event.currentTarget
+    const input = event.currentTarget;
     if (!input.checked) {
-      input.closest("form").requestSubmit()
+      input.closest("form").requestSubmit();
     }
   }
 }

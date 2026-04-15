@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config"
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
@@ -7,4 +7,4 @@ export default defineConfig({
     // threads pool avoids fork teardown issues in some CI/sandbox environments
     pool: "threads"
   }
-})
+});

@@ -1,14 +1,14 @@
-import { Application } from "@hotwired/stimulus"
+import { Application } from "@hotwired/stimulus";
 
 /**
  * @param {Record<string, typeof import("@hotwired/stimulus").Controller>} controllers
  */
 export function startStimulus(controllers) {
-  const application = Application.start()
+  const application = Application.start();
   for (const [identifier, ControllerConstructor] of Object.entries(controllers)) {
-    application.register(identifier, ControllerConstructor)
+    application.register(identifier, ControllerConstructor);
   }
-  return application
+  return application;
 }
 
 /**
@@ -17,5 +17,5 @@ export function startStimulus(controllers) {
  * @param {string} identifier
  */
 export function getController(application, element, identifier) {
-  return application.getControllerForElementAndIdentifier(element, identifier)
+  return application.getControllerForElementAndIdentifier(element, identifier);
 }

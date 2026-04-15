@@ -18,7 +18,6 @@ module Types
       ids.map { |id| context.schema.object_from_id(id, context) }
     end
 
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
+    field :user, resolver: Resolvers::User
   end
 end

@@ -13,6 +13,13 @@ class UserPolicyTest < ActiveSupport::TestCase
     assert_not UserPolicy.new(@regular, User).index?
   end
 
+  test "show? allows admins for any user and others only for self" do
+    assert_predicate UserPolicy.new(@admin, @regular), :show?
+    assert_predicate UserPolicy.new(@admin, @admin), :show?
+    assert_predicate UserPolicy.new(@regular, @regular), :show?
+    assert_not UserPolicy.new(@regular, @admin).show?
+  end
+
   test "update? allows admin to change a non-admin user" do
     assert_predicate UserPolicy.new(@admin, @regular), :update?
   end

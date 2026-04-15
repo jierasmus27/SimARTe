@@ -17,6 +17,17 @@ class GraphqlCreateUserTest < ActionDispatch::IntegrationTest
     }
   GQL
 
+  USER_QUERY = <<~GQL
+    query User($id: ID!) {
+      user(id: $id) {
+        id
+        email
+        firstName
+        lastName
+      }
+    }
+  GQL
+
   setup do
     @admin = users(:one)
     @new_email = "graphql_created_#{SecureRandom.hex(4)}@example.com"
@@ -95,5 +106,41 @@ class GraphqlCreateUserTest < ActionDispatch::IntegrationTest
     assert_equal "Graph", user_json["firstName"]
     assert_equal "Created", user_json["lastName"]
     assert_equal "user", user_json["role"]
+  end
+
+  test "user query returns another user when caller is admin" do
+    post "/users/sign_in",
+      params: {
+        user: {
+          email: @admin.email,
+          password: "password123"
+        }
+      },
+      headers: {
+        "Accept" => "application/json",
+        "Content-Type" => "application/json"
+      },
+      as: :json
+
+    assert_response :success
+    auth_header = response.headers["Authorization"]
+    other = users(:two)
+
+    post "/graphql",
+      params: {
+        query: USER_QUERY,
+        variables: { id: other.to_gid_param }
+      },
+      headers: {
+        "Authorization" => auth_header,
+        "Content-Type" => "application/json",
+        "Accept" => "application/json"
+      },
+      as: :json
+
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_nil body["errors"], body.inspect
+    assert_equal other.email, body.dig("data", "user", "email")
   end
 end

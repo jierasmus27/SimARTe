@@ -313,4 +313,13 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+
+  # JWT for GraphQL and JSON API clients (Authorization: Bearer <token>).
+  # Set credentials devise_jwt_secret_key or ENV["DEVISE_JWT_SECRET_KEY"] in production.
+  config.jwt do |jwt|
+    jwt.secret = ENV["DEVISE_JWT_SECRET_KEY"].presence ||
+      Rails.application.credentials.dig(:devise_jwt_secret_key) ||
+      Rails.application.secret_key_base
+    jwt.expiration_time = 1.day.to_i
+  end
 end

@@ -4,6 +4,10 @@ class SimarteRailsSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
+  rescue_from(Pundit::NotAuthorizedError) do |_err, _obj, _args, _ctx, _field|
+    raise GraphQL::ExecutionError, "Not authorized"
+  end
+
   # For batch-loading (see https://graphql-ruby.org/dataloader/overview.html)
   use GraphQL::Dataloader
 

@@ -55,24 +55,12 @@ class GraphqlCreateUserTest < ActionDispatch::IntegrationTest
     assert_equal "Authentication required", body.dig("errors", 0, "message")
   end
 
-  test "createUser succeeds after admin logs in via JSON and sends Bearer token" do
-    post "/users/sign_in",
-      params: {
-        user: {
-          email: @admin.email,
-          password: "password123"
-        }
-      },
-      headers: {
-        "Accept" => "application/json",
-        "Content-Type" => "application/json"
-      },
-      as: :json
-
-    assert_response :success
-    auth_header = response.headers["Authorization"]
-    assert auth_header.present?, "expected JWT in Authorization response header after JSON sign-in"
-    assert auth_header.start_with?("Bearer "), auth_header
+  test "createUser succeeds with valid Auth0-shaped Bearer token" do
+    token = Auth0JwtTestHelper.issue_access_token(
+      sub: @admin.auth0_sub,
+      email: @admin.email
+    )
+    auth_header = "Bearer #{token}"
 
     assert_difference -> { User.count }, 1 do
       post "/graphql",
@@ -109,21 +97,11 @@ class GraphqlCreateUserTest < ActionDispatch::IntegrationTest
   end
 
   test "user query returns another user when caller is admin" do
-    post "/users/sign_in",
-      params: {
-        user: {
-          email: @admin.email,
-          password: "password123"
-        }
-      },
-      headers: {
-        "Accept" => "application/json",
-        "Content-Type" => "application/json"
-      },
-      as: :json
-
-    assert_response :success
-    auth_header = response.headers["Authorization"]
+    token = Auth0JwtTestHelper.issue_access_token(
+      sub: @admin.auth0_sub,
+      email: @admin.email
+    )
+    auth_header = "Bearer #{token}"
     other = users(:two)
 
     post "/graphql",

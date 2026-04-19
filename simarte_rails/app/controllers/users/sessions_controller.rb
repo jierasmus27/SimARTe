@@ -7,6 +7,13 @@ class Users::SessionsController < Devise::SessionsController
   layout "login"
 
   def create
+    if request.format.json?
+      render json: {
+        error: "API clients must authenticate with Auth0. This endpoint only accepts HTML sign-in."
+      }, status: :unprocessable_entity
+      return
+    end
+
     attrs = sign_in_params
     self.resource = resource_class.find_for_authentication(email: attrs[:email])
 
@@ -22,15 +29,8 @@ class Users::SessionsController < Devise::SessionsController
     end
 
     set_flash_message!(:notice, :signed_in)
-    if request.format.json?
-      sign_in(resource_name, resource, store: false)
-      respond_to do |format|
-        format.json { render json: { email: resource.email }, status: :ok }
-      end
-    else
-      sign_in(resource_name, resource)
-      respond_with resource, location: after_sign_in_path_for(resource)
-    end
+    sign_in(resource_name, resource)
+    respond_with resource, location: after_sign_in_path_for(resource)
   end
 
   # Devise 5 calls this with keyword args; a bare `*` signature raises ArgumentError on Ruby 3.
@@ -43,7 +43,6 @@ class Users::SessionsController < Devise::SessionsController
   def respond_to_failed_sign_in
     respond_to do |format|
       format.html { redirect_to root_path, alert: "Incorrect username or password." }
-      format.json { render json: { error: "Incorrect username or password." }, status: :unauthorized }
     end
   end
 end

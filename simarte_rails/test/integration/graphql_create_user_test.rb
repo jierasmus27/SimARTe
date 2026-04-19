@@ -47,6 +47,26 @@ class GraphqlCreateUserTest < ActionDispatch::IntegrationTest
     }
   GQL
 
+  CREATE_SERVICE_MUTATION = <<~GQL
+    mutation CreateService {
+      createService(input: { name: "Blocked via GraphQL" }) {
+        service {
+          id
+        }
+      }
+    }
+  GQL
+
+  CREATE_SUBSCRIPTION_MUTATION = <<~GQL
+    mutation CreateSubscription($userId: ID!, $serviceId: ID!) {
+      createSubscription(input: { userId: $userId, serviceId: $serviceId }) {
+        subscription {
+          id
+        }
+      }
+    }
+  GQL
+
   setup do
     @admin = users(:one)
     @new_email = "graphql_created_#{SecureRandom.hex(4)}@example.com"
@@ -177,5 +197,51 @@ class GraphqlCreateUserTest < ActionDispatch::IntegrationTest
     assert_equal [ user.id.to_s ], subscriptions_json.map { |subscription| subscription["userId"] }.uniq
     assert_equal [ ar.id.to_s, gis.id.to_s ].sort, subscriptions_json.map { |subscription| subscription["serviceId"] }.sort
     assert_equal [ "AR", "GIS" ], subscriptions_json.map { |subscription| subscription["serviceName"] }.sort
+  end
+
+  test "graphql does not expose createService mutation" do
+    token = Auth0JwtTestHelper.issue_access_token(
+      sub: @admin.auth0_sub,
+      email: @admin.email
+    )
+
+    post "/graphql",
+      params: { query: CREATE_SERVICE_MUTATION },
+      headers: {
+        "Authorization" => "Bearer #{token}",
+        "Content-Type" => "application/json",
+        "Accept" => "application/json"
+      },
+      as: :json
+
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_includes body.dig("errors", 0, "message"), "createService"
+  end
+
+  test "graphql does not expose createSubscription mutation" do
+    token = Auth0JwtTestHelper.issue_access_token(
+      sub: @admin.auth0_sub,
+      email: @admin.email
+    )
+
+    post "/graphql",
+      params: {
+        query: CREATE_SUBSCRIPTION_MUTATION,
+        variables: {
+          userId: users(:two).to_gid_param,
+          serviceId: services(:ar).to_gid_param
+        }
+      },
+      headers: {
+        "Authorization" => "Bearer #{token}",
+        "Content-Type" => "application/json",
+        "Accept" => "application/json"
+      },
+      as: :json
+
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_includes body.dig("errors", 0, "message"), "createSubscription"
   end
 end

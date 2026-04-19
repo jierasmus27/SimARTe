@@ -4,8 +4,9 @@ require "rails/test_help"
 require "devise/test/integration_helpers"
 require_relative "support/auth0_jwt_test_helper"
 
-ENV["AUTH0_DOMAIN"] ||= Auth0JwtTestHelper::DOMAIN
-ENV["AUTH0_AUDIENCE"] ||= Auth0JwtTestHelper::AUDIENCE
+# Keep JWT verification deterministic in tests, regardless of host/container ENV.
+ENV["AUTH0_DOMAIN"] = Auth0JwtTestHelper::DOMAIN
+ENV["AUTH0_AUDIENCE"] = Auth0JwtTestHelper::AUDIENCE
 Auth0AccessTokenVerifier.jwks_override = Auth0JwtTestHelper.jwks_set
 
 class ActionDispatch::IntegrationTest

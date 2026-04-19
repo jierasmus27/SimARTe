@@ -28,6 +28,25 @@ class GraphqlCreateUserTest < ActionDispatch::IntegrationTest
     }
   GQL
 
+  USER_WITH_RELATIONS_QUERY = <<~GQL
+    query UserWithRelations($id: ID!) {
+      user(id: $id) {
+        id
+        email
+        services {
+          id
+          name
+        }
+        subscriptions {
+          id
+          userId
+          serviceId
+          serviceName
+        }
+      }
+    }
+  GQL
+
   setup do
     @admin = users(:one)
     @new_email = "graphql_created_#{SecureRandom.hex(4)}@example.com"
@@ -120,5 +139,43 @@ class GraphqlCreateUserTest < ActionDispatch::IntegrationTest
     body = JSON.parse(response.body)
     assert_nil body["errors"], body.inspect
     assert_equal other.email, body.dig("data", "user", "email")
+  end
+
+  test "user query returns related subscriptions and services" do
+    token = Auth0JwtTestHelper.issue_access_token(
+      sub: @admin.auth0_sub,
+      email: @admin.email
+    )
+    auth_header = "Bearer #{token}"
+    user = users(:two)
+    ar = services(:ar)
+    gis = services(:gis)
+    sub_one = Subscription.create!(user: user, service: ar)
+    sub_two = Subscription.create!(user: user, service: gis)
+
+    post "/graphql",
+      params: {
+        query: USER_WITH_RELATIONS_QUERY,
+        variables: { id: user.to_gid_param }
+      },
+      headers: {
+        "Authorization" => auth_header,
+        "Content-Type" => "application/json",
+        "Accept" => "application/json"
+      },
+      as: :json
+
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_nil body["errors"], body.inspect
+
+    services_json = body.dig("data", "user", "services")
+    subscriptions_json = body.dig("data", "user", "subscriptions")
+
+    assert_equal [ "AR", "GIS" ], services_json.map { |service| service["name"] }.sort
+    assert_equal [ sub_one.id.to_s, sub_two.id.to_s ].sort, subscriptions_json.map { |subscription| subscription["id"] }.sort
+    assert_equal [ user.id.to_s ], subscriptions_json.map { |subscription| subscription["userId"] }.uniq
+    assert_equal [ ar.id.to_s, gis.id.to_s ].sort, subscriptions_json.map { |subscription| subscription["serviceId"] }.sort
+    assert_equal [ "AR", "GIS" ], subscriptions_json.map { |subscription| subscription["serviceName"] }.sort
   end
 end

@@ -4,9 +4,9 @@ class GraphqlController < ApplicationController
   # JSON API + Bearer JWT: no CSRF session; unverified requests get an empty session.
   protect_from_forgery with: :null_session
 
-  # Devise JWT only (no cookie session); Pundit runs in resolvers/mutations, not here.
+  # Auth0 access tokens (not Devise session); Pundit uses context[:current_user] in resolvers.
   skip_before_action :authenticate_user!, only: [ :execute ]
-  before_action :require_jwt_authenticated_user!, only: [ :execute ]
+  before_action :authenticate_with_auth0_bearer!, only: [ :execute ]
   skip_after_action :verify_authorized, only: [ :execute ]
   skip_after_action :verify_policy_scoped, only: [ :execute ]
 
@@ -22,13 +22,42 @@ class GraphqlController < ApplicationController
     handle_error_in_development(e)
   end
 
+  def current_user
+    @graphql_current_user
+  end
+
   private
 
-  def require_jwt_authenticated_user!
-    # Ignore session cookies so only Authorization: Bearer <token> is used (devise-jwt).
+  def authenticate_with_auth0_bearer!
     request.session_options[:skip] = true
-    return if user_signed_in?
 
+    token = bearer_token
+    if token.blank?
+      render_auth_required
+      return
+    end
+
+    claims = Auth0AccessTokenVerifier.new.verify(token)
+    user = User.find_or_sync_from_auth0(claims)
+
+    if user.nil?
+      render_auth_required
+      return
+    end
+
+    @graphql_current_user = user
+  rescue Auth0AccessTokenVerifier::InvalidToken
+    render_auth_required
+  rescue Auth0AccessTokenVerifier::ConfigurationError => e
+    Rails.logger.error("[GraphQL] Auth0 configuration error: #{e.message}")
+    render json: { errors: [ { message: "Authentication misconfigured" } ] }, status: :internal_server_error
+  end
+
+  def bearer_token
+    request.headers["Authorization"].to_s[%r{\ABearer (.+)\z}, 1]
+  end
+
+  def render_auth_required
     render json: { errors: [ { message: "Authentication required" } ] }, status: :unauthorized
   end
 

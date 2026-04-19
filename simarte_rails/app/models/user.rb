@@ -1,11 +1,8 @@
 class User < ApplicationRecord
-  include Devise::JWT::RevocationStrategies::JTIMatcher
-
   has_paper_trail
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
+         :recoverable, :rememberable, :validatable
 
   has_many :subscriptions, dependent: :destroy
   has_many :services, through: :subscriptions
@@ -46,5 +43,27 @@ class User < ApplicationRecord
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  # Resolve a local user from Auth0 access token claims (`sub`, optional verified `email`).
+  # Returns nil if no matching or linkable user (unknown Auth0 identity).
+  def self.find_or_sync_from_auth0(claims)
+    sub = claims["sub"].presence
+    return nil if sub.blank?
+
+    user = find_by(auth0_sub: sub)
+    return user if user
+
+    return nil unless claims["email_verified"] == true
+
+    email = claims["email"].to_s.strip.downcase
+    return nil if email.blank?
+
+    existing = find_by("LOWER(email) = ?", email)
+    return nil if existing.nil?
+    return nil if existing.auth0_sub.present? && existing.auth0_sub != sub
+
+    existing.update!(auth0_sub: sub)
+    existing
   end
 end

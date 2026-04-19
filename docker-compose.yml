@@ -41,6 +41,8 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       REDIS_URL: ${REDIS_URL}
       TAILWIND_WATCHER_POLLING: true
+      AUTH0_DOMAIN: dev-42qe53otnaih34xb.us.auth0.com
+      AUTH0_AUDIENCE: https://api.simarte.co.za
     depends_on:
       db:
         condition: service_healthy

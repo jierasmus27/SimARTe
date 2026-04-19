@@ -7,6 +7,7 @@ one:
   last_name: User
   role: admin
   encrypted_password: $2a$12$yTmEg18Xzk6LANNSUV9hOeGbwcWSrM9XiP0MUY.Do74O5/N6B9v.S
+  auth0_sub: auth0|fixture-admin-one
 
 two:
   email: jane@example.com

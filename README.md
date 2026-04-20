@@ -10,8 +10,9 @@ Web application for managing users, service subscriptions, and admin workflows. 
 | Database | PostgreSQL 16 |
 | Background jobs | Sidekiq (Redis) |
 | Frontend | Importmap, Turbo, Stimulus, Tailwind (`tailwindcss-rails`), Propshaft |
+| API | GraphQL |
 | UI | ViewComponent |
-| Auth | Devise |
+| Auth | Devise, AuthO |
 
 Services defined in Docker Compose: **web** (Rails via `bin/dev`), **db** (Postgres), **redis**, **sidekiq**.
 

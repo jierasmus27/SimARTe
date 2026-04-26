@@ -1,0 +1,64 @@
+<section class="rounded-sm border border-outline-variant/10 bg-surface-container shadow-none">
+  <div class="border-b border-outline-variant/5 bg-surface-container-low px-5 py-4">
+    <div class="flex items-center gap-3">
+      <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-primary/20 bg-primary/10">
+        <span class="material-symbols-outlined text-primary" aria-hidden="true">person_search</span>
+      </div>
+      <div>
+        <p class="text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant">Client User</p>
+        <h3 class="font-headline text-lg font-bold text-on-surface">Technical Contact</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-5">
+    <label for="service_user_id" class="mb-1.5 ml-1 block text-[0.6875rem] uppercase tracking-widest text-on-surface-variant">
+      User selection
+    </label>
+    <div class="group relative" data-controller="dropdown value-picker">
+      <%= hidden_field_tag field_name, selected_user_id, id: "service_user_id", data: { value_picker_target: "hiddenInput" } %>
+      <button
+        type="button"
+        class="flex w-full items-center rounded-lg border border-primary/20 bg-surface-container-highest px-4 py-3 text-on-surface transition-all duration-300 hover:border-primary/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+        data-action="click->dropdown#toggle"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+      >
+        <span class="material-symbols-outlined mr-2 shrink-0 text-sm text-primary/60" aria-hidden="true">manage_search</span>
+        <span class="flex-1 truncate text-left text-xs font-bold uppercase tracking-wider" data-value-picker-target="label">
+          <%= selected_label %>
+        </span>
+        <span class="material-symbols-outlined ml-2 shrink-0 text-sm text-primary/60" aria-hidden="true">expand_more</span>
+      </button>
+
+      <div
+        class="celestial-blur absolute z-[110] mt-2 hidden max-h-72 w-full overflow-hidden rounded-lg border border-primary/30 bg-surface-container/90 py-2 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+        data-dropdown-target="menu"
+        role="listbox"
+      >
+        <div class="custom-scrollbar max-h-64 overflow-y-auto">
+          <% users.each do |user| %>
+            <% option_label = "#{user.full_name} · #{user.email}" %>
+            <button
+              type="button"
+              role="option"
+              class="group/item flex w-full items-center gap-3 px-4 py-3 text-left text-on-surface transition-colors hover:bg-primary/10 hover:text-primary"
+              data-action="click->value-picker#select click->dropdown#closeMenu"
+              data-option-value="<%= user.id %>"
+              data-option-label="<%= option_label %>"
+            >
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-primary/10 font-headline text-[10px] font-bold text-primary ring-1 ring-primary/20">
+                <%= user.initials %>
+              </span>
+              <span class="min-w-0">
+                <span class="block truncate text-xs font-bold uppercase tracking-wider"><%= user.full_name %></span>
+                <span class="block truncate text-[11px] text-on-surface-variant"><%= user.email %></span>
+              </span>
+            </button>
+          <% end %>
+        </div>
+      </div>
+      <div class="pointer-events-none absolute bottom-0 left-0 h-[2px] w-0 bg-primary shadow-[0_0_10px_#acead3] transition-all duration-500 group-focus-within:w-full"></div>
+    </div>
+  </div>
+</section>

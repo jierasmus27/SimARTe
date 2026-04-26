@@ -1,0 +1,49 @@
+<section class="flex min-h-[34rem] flex-col rounded-sm border border-outline-variant/10 bg-surface-container shadow-none">
+  <div class="border-b border-outline-variant/5 bg-surface-container-low px-5 py-4">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-primary/20 bg-primary/10">
+          <span class="material-symbols-outlined text-primary" aria-hidden="true">schedule</span>
+        </div>
+        <div>
+          <p class="text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant">Window Availability</p>
+          <h3 class="font-headline text-lg font-bold text-on-surface">Open Slots</h3>
+        </div>
+      </div>
+      <div class="rounded-sm border border-outline-variant/10 bg-surface-container-lowest px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+        <%= selected_date_label %>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-1 flex-col p-5">
+    <% if slots.any? %>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <% slots.each do |slot| %>
+          <label class="group flex cursor-pointer items-center gap-3 rounded-lg border border-primary/15 bg-surface-container-highest px-4 py-3 transition-all hover:border-primary/40 hover:bg-primary/5">
+            <%= radio_button_tag field_name,
+              slot_value(slot),
+              false,
+              class: "h-4 w-4 border-outline-variant bg-surface-container-lowest text-primary focus:ring-primary/40" %>
+            <span class="flex min-w-0 flex-1 items-center justify-between gap-3">
+              <span class="truncate text-sm font-bold text-on-surface"><%= slot_label(slot) %></span>
+              <span class="rounded-full bg-primary/10 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">Open</span>
+            </span>
+          </label>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="flex flex-1 items-center justify-center rounded-lg border border-dashed border-outline-variant/20 bg-surface-container-lowest/60 p-8 text-center">
+        <div class="max-w-sm">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-primary/20 bg-primary/10">
+            <span class="material-symbols-outlined text-3xl text-primary" aria-hidden="true">event_busy</span>
+          </div>
+          <h4 class="mt-5 font-headline text-xl font-bold text-on-surface">No windows loaded</h4>
+          <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">
+            Available slots will appear here after the user and date are wired to the scheduling backend.
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

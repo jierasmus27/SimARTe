@@ -6,6 +6,7 @@ class CreateServiceBookingTimeSlots < ActiveRecord::Migration[8.1]
       t.datetime :end_time, null: false
       t.string :label
       t.integer :service_bookings_count
+      t.integer :quantity
 
       t.timestamps
     end

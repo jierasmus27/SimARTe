@@ -1,0 +1,5 @@
+early_slot:
+  start_time: '2026-04-27 11:00'
+  end_time: '2026-04-27 12:00'
+  quantity: 10
+  service: ar

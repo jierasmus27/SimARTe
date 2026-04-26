@@ -3,7 +3,6 @@ class ServiceBookingTimeSlot < ApplicationRecord
   belongs_to :service
 
   validates :start_time, :end_time, :quantity, presence: true
-  validates :end_time, greater_than: :start_time
+  validates :end_time, comparison: { greater_than: :start_time }
   validates :quantity, numericality: true
-
 end

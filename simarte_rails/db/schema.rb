@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_18_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_26_161820) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "service_booking_time_slots", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "end_time", null: false
+    t.string "label"
+    t.integer "service_bookings_count"
+    t.bigint "service_id", null: false
+    t.datetime "start_time", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_service_booking_time_slots_on_service_id"
+    t.index ["start_time"], name: "index_service_booking_time_slots_on_start_time"
+  end
+
+  create_table "service_bookings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "service_booking_time_slot_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["service_booking_time_slot_id"], name: "index_service_bookings_on_service_booking_time_slot_id"
+    t.index ["user_id", "service_booking_time_slot_id"], name: "idx_on_user_id_service_booking_time_slot_id_cbfb5ea420", unique: true
+    t.index ["user_id"], name: "index_service_bookings_on_user_id"
+  end
 
   create_table "services", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -56,6 +78,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_18_120000) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "service_booking_time_slots", "services"
+  add_foreign_key "service_bookings", "service_booking_time_slots"
+  add_foreign_key "service_bookings", "users"
   add_foreign_key "subscriptions", "services"
   add_foreign_key "subscriptions", "users"
 end

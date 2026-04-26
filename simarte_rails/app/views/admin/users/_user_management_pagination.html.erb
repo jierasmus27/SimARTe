@@ -1,9 +1,9 @@
 <%# locals: pagy %>
 <div id="user_management_pagination" class="p-5 bg-surface-container-low flex flex-wrap items-center justify-between gap-4 border-t border-outline-variant/5">
   <div class="text-[11px] text-on-surface-variant font-medium tracking-wide">
-    <%== pagy_info(pagy, item_name: "users") %>
+    <%== pagy.info_tag(item_name: "users") %>
   </div>
   <div class="flex items-center gap-1 min-w-0">
-    <%== pagy_nav(pagy) if pagy.pages > 1 %>
+    <%== pagy.series_nav if pagy.pages > 1 %>
   </div>
 </div>

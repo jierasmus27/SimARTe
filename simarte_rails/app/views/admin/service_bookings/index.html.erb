@@ -14,7 +14,11 @@
   </div>
 </div>
 
-<div class="px-6 sm:px-16 py-8">
+<div
+  class="px-6 sm:px-16 py-8"
+  data-controller='service-booking-flow'
+  data-action="selected->service-booking-flow#showCalendar"
+>
   <div class="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.25fr)]">
     <section class="space-y-6">
       <%= render Admin::ServiceBookings::UserSelectionComponent.new(
@@ -23,7 +27,9 @@
         field_name: "service_booking[user_id]",
         form_id: "service_booking_form"
       ) %>
-      <%= render Admin::ServiceBookings::DatePickerComponent.new(selected_date: @selected_date) %>
+      <div class="hidden" data-service-booking-flow-target="calendar">
+        <%= render Admin::ServiceBookings::DatePickerComponent.new(selected_date: @selected_date) %>
+      </div>
     </section>
 
     <%= render Admin::ServiceBookings::AvailabilitySlotsComponent.new(

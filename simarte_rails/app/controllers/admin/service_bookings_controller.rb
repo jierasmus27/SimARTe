@@ -34,6 +34,6 @@ class Admin::ServiceBookingsController < Admin::BaseController
   end
 
   def start_date
-    Time.zone.parse(params[:date])
+    params[:date].present? ? Time.zone.parse(params[:date]) : Time.current
   end
 end

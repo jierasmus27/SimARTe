@@ -17,10 +17,18 @@
 <div class="px-6 sm:px-16 py-8">
   <div class="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.25fr)]">
     <section class="space-y-6">
-      <%= render Admin::ServiceBookings::UserSelectionComponent.new(users: @users, selected_user_id: @selected_user_id) %>
+      <%= render Admin::ServiceBookings::UserSelectionComponent.new(
+        users: @users,
+        selected_user_id: @selected_user_id,
+        field_name: "service_booking[user_id]",
+        form_id: "service_booking_form"
+      ) %>
       <%= render Admin::ServiceBookings::DatePickerComponent.new(selected_date: @selected_date) %>
     </section>
 
-    <%= render Admin::ServiceBookings::AvailabilitySlotsComponent.new(service_booking_time_slots: @service_booking_time_slots, selected_date: @selected_date) %>
+    <%= render Admin::ServiceBookings::AvailabilitySlotsComponent.new(
+      service_booking_time_slots: @service_booking_time_slots,
+      selected_date: @selected_date
+    ) %>
   </div>
 </div>

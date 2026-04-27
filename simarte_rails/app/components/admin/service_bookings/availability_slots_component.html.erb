@@ -18,20 +18,28 @@
 
   <div class="flex flex-1 flex-col p-5">
     <% if service_booking_time_slots.any? %>
-      <div class="grid gap-3 sm:grid-cols-2">
-        <% service_booking_time_slots.each do |slot| %>
-          <label class="group flex cursor-pointer items-center gap-3 rounded-lg border border-primary/15 bg-surface-container-highest px-4 py-3 transition-all hover:border-primary/40 hover:bg-primary/5">
-            <%= radio_button_tag field_name,
-              slot_value(slot),
-              false,
-              class: "h-4 w-4 border-outline-variant bg-surface-container-lowest text-primary focus:ring-primary/40" %>
-            <span class="flex min-w-0 flex-1 items-center justify-between gap-3">
-              <span class="truncate text-sm font-bold text-on-surface"><%= slot_label(slot) %></span>
-              <span class="rounded-full bg-primary/10 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">Open</span>
-            </span>
-          </label>
-        <% end %>
-      </div>
+      <%= form_with url: admin_service_bookings_path, scope: :service_booking, method: :post, id: form_id, class: "flex flex-1 flex-col", data: { turbo: true } do %>
+        <div class="flex flex-1 flex-col gap-3">
+          <% service_booking_time_slots.each do |slot| %>
+            <label class="group block w-full cursor-pointer">
+              <%= radio_button_tag field_name,
+                slot_value(slot),
+                false,
+                required: true,
+                class: "peer sr-only" %>
+              <span class="flex w-full min-w-0 items-center justify-between gap-3 rounded-lg border border-primary/15 bg-surface-container-highest px-4 py-3 transition-all hover:border-primary/40 hover:bg-primary/5 peer-focus-visible:ring-2 peer-focus-visible:ring-primary/50 peer-checked:border-primary peer-checked:bg-primary/15 peer-checked:shadow-[0_0_0_1px_rgba(150,211,189,0.35)]">
+                <span class="truncate text-sm font-bold text-on-surface"><%= slot_label(slot) %></span>
+                <span class="rounded-full bg-primary/10 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-primary transition-colors group-has-[:checked]:bg-primary group-has-[:checked]:text-[#0c0e10]">Open</span>
+              </span>
+            </label>
+          <% end %>
+        </div>
+
+        <div class="mt-5 border-t border-outline-variant/10 pt-5">
+          <%= submit_tag "Book selected slot",
+            class: "inline-flex w-full items-center justify-center rounded-lg bg-primary px-5 py-3 font-headline text-sm font-bold uppercase tracking-[0.18em] text-[#0c0e10] transition-all hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:bg-outline-variant/20 disabled:text-on-surface-variant" %>
+        </div>
+      <% end %>
     <% else %>
       <div class="flex flex-1 items-center justify-center rounded-lg border border-dashed border-outline-variant/20 bg-surface-container-lowest/60 p-8 text-center">
         <div class="max-w-sm">

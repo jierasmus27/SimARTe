@@ -1,31 +1,28 @@
 # frozen_string_literal: true
 
 class Admin::ServiceBookings::AvailabilitySlotsComponent < ViewComponent::Base
-  def initialize(service_booking_time_slots:, selected_date: nil, field_name: :availability_slot)
+  def initialize(service_booking_time_slots:, selected_date: nil, form_id: "service_booking_form", field_name: "service_booking[service_booking_time_slot_id]")
     @service_booking_time_slots = service_booking_time_slots
     @selected_date = selected_date
+    @form_id = form_id
     @field_name = field_name
   end
 
   private
 
-  attr_reader :service_booking_time_slots, :selected_date, :field_name
+  attr_reader :service_booking_time_slots, :selected_date, :form_id, :field_name
 
   def slot_label(slot)
-    return slot if slot.is_a?(String)
-    return slot[:label] if slot.respond_to?(:[]) && slot[:label].present?
+    return slot.label if slot.label.present?
 
-    start_time = slot.respond_to?(:[]) ? slot[:start_time] : nil
-    end_time = slot.respond_to?(:[]) ? slot[:end_time] : nil
+    start_time = slot.start_time.strftime("%H:%M")
+    end_time = slot.end_time.strftime("%H:%M")
 
-    [ start_time, end_time ].compact.join(" - ")
+    [ 'From', ' ', start_time, ' - ', end_time ].compact.join
   end
 
   def slot_value(slot)
-    return slot if slot.is_a?(String)
-    return slot[:value] if slot.respond_to?(:[]) && slot[:value].present?
-
-    slot_label(slot)
+    slot.id
   end
 
   def selected_date_label

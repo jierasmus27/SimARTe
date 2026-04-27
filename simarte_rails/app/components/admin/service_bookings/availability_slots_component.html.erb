@@ -17,9 +17,9 @@
   </div>
 
   <div class="flex flex-1 flex-col p-5">
-    <% if slots.any? %>
+    <% if service_booking_time_slots.any? %>
       <div class="grid gap-3 sm:grid-cols-2">
-        <% slots.each do |slot| %>
+        <% service_booking_time_slots.each do |slot| %>
           <label class="group flex cursor-pointer items-center gap-3 rounded-lg border border-primary/15 bg-surface-container-highest px-4 py-3 transition-all hover:border-primary/40 hover:bg-primary/5">
             <%= radio_button_tag field_name,
               slot_value(slot),

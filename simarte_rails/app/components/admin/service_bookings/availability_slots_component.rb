@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class Admin::ServiceBookings::AvailabilitySlotsComponent < ViewComponent::Base
-  def initialize(slots:, selected_date: nil, field_name: :availability_slot)
-    @slots = slots
+  def initialize(service_booking_time_slots:, selected_date: nil, field_name: :availability_slot)
+    @service_booking_time_slots = service_booking_time_slots
     @selected_date = selected_date
     @field_name = field_name
   end
 
   private
 
-  attr_reader :slots, :selected_date, :field_name
+  attr_reader :service_booking_time_slots, :selected_date, :field_name
 
   def slot_label(slot)
     return slot if slot.is_a?(String)

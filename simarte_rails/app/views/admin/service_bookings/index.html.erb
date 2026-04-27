@@ -21,6 +21,6 @@
       <%= render Admin::ServiceBookings::DatePickerComponent.new(selected_date: @selected_date) %>
     </section>
 
-    <%= render Admin::ServiceBookings::AvailabilitySlotsComponent.new(slots: @availability_slots, selected_date: @selected_date) %>
+    <%= render Admin::ServiceBookings::AvailabilitySlotsComponent.new(service_booking_time_slots: @service_booking_time_slots, selected_date: @selected_date) %>
   </div>
 </div>

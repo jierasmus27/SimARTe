@@ -1,7 +1,7 @@
 class CreateServiceBooking < ActiveRecord::Migration[8.1]
   def change
     create_table :service_bookings do |t|
-      t.references :user, null: false, foreign_key: true
+      t.references :user, null: true, foreign_key: true
       t.references :service_booking_time_slot, null: false, foreign_key: true
 
       t.timestamps

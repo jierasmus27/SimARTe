@@ -18,8 +18,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_26_161820) do
     t.datetime "created_at", null: false
     t.datetime "end_time", null: false
     t.string "label"
-    t.integer "quantity"
-    t.integer "service_bookings_count"
+    t.integer "quantity", default: 0
+    t.integer "service_bookings_count", default: 0
     t.bigint "service_id", null: false
     t.datetime "start_time", null: false
     t.datetime "updated_at", null: false

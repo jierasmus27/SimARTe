@@ -6,4 +6,5 @@ export default class extends Controller {
   showCalendar() {
     this.calendarTarget.classList.remove("hidden");
   }
+
 }

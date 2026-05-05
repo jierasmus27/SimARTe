@@ -27,18 +27,18 @@
       </div>
 
       <div class="grid grid-cols-7 gap-2">
-        <% [ 28, 29, 30 ].each do |day| %>
-          <div class="flex aspect-square items-center justify-center text-xs opacity-20"><%= day %></div>
+        <% unselectable_start_days.each do |date| %>
+          <div class="flex aspect-square items-center justify-center text-xs opacity-20"><%= date.day %></div>
         <% end %>
 
-        <% (1..25).each do |day| %>
-          <% if day == 13 %>
+        <% selectable_days_of_month.each do |date| %>
+          <% if date.day == selected_date.day %>
             <button type="button" class="flex aspect-square items-center justify-center bg-primary text-xs font-bold text-on-primary shadow-[0_0_20px_rgba(172,234,211,0.4)]">
-              <%= day.to_s.rjust(2, "0") %>
+              <%= date.day.to_s %>
             </button>
           <% else %>
             <button type="button" class="flex aspect-square cursor-pointer items-center justify-center text-xs transition-all hover:bg-primary/10">
-              <%= day.to_s.rjust(2, "0") %>
+              <%= date.day.to_s %>
             </button>
           <% end %>
         <% end %>

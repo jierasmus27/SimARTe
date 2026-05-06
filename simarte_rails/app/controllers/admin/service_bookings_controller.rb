@@ -4,8 +4,10 @@ class Admin::ServiceBookingsController < Admin::BaseController
   def index
     @users = policy_scope(User).order(:email)
     @selected_user_id = params[:user_id].presence
-    @selected_date = params[:date].presence
-    @service_booking_time_slots = policy_scope(ServiceBookingTimeSlot).where('DATE(start_time) = :start_date', start_date: start_date)
+    @selected_date = selected_date
+    @service_booking_time_slots = policy_scope(ServiceBookingTimeSlot)
+      .where(start_time: @selected_date.all_day)
+      .order(:start_time)
   end
 
   def create
@@ -20,7 +22,7 @@ class Admin::ServiceBookingsController < Admin::BaseController
 
     @service_booking = service_booker.create
   rescue ServiceBooker::Creator::BookedOutError
-    flash[:error] = 'No open bookings, please try another slot'
+    flash[:error] = "No open bookings, please try another slot"
   end
 
   private
@@ -33,7 +35,11 @@ class Admin::ServiceBookingsController < Admin::BaseController
     @user = User.find(service_booking_params[:user_id])
   end
 
-  def start_date
-    params[:date].present? ? Time.zone.parse(params[:date]) : Time.current
+  def selected_date
+    return Time.zone.today if params[:date].blank?
+
+    Date.parse(params[:date])
+  rescue Date::Error
+    Time.zone.today
   end
 end

@@ -18,7 +18,7 @@ class Admin::ServiceBookings::AvailabilitySlotsComponent < ViewComponent::Base
     start_time = slot.start_time.strftime("%H:%M")
     end_time = slot.end_time.strftime("%H:%M")
 
-    [ 'From', ' ', start_time, ' - ', end_time ].compact.join
+    [ "From", " ", start_time, " - ", end_time ].compact.join
   end
 
   def slot_value(slot)

@@ -1,0 +1,57 @@
+<section class="flex min-h-[34rem] flex-col rounded-sm border border-outline-variant/10 bg-surface-container shadow-none">
+  <div class="border-b border-outline-variant/5 bg-surface-container-low px-5 py-4">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-primary/20 bg-primary/10">
+          <span class="material-symbols-outlined text-primary" aria-hidden="true">schedule</span>
+        </div>
+        <div>
+          <p class="text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant">Window Availability</p>
+          <h3 class="font-headline text-lg font-bold text-on-surface">Open Slots</h3>
+        </div>
+      </div>
+      <div class="rounded-sm border border-outline-variant/10 bg-surface-container-lowest px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+        <%= selected_date_label %>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-1 flex-col p-5">
+    <% if service_booking_time_slots.any? %>
+      <%= form_with url: admin_service_bookings_path, scope: :service_booking, method: :post, id: form_id, class: "flex flex-1 flex-col", data: { turbo: true } do %>
+        <div class="flex flex-1 flex-col gap-3">
+          <% service_booking_time_slots.each do |slot| %>
+            <label class="group block w-full cursor-pointer">
+              <%= radio_button_tag field_name,
+                slot_value(slot),
+                false,
+                required: true,
+                class: "peer sr-only" %>
+              <span class="flex w-full min-w-0 items-center justify-between gap-3 rounded-lg border border-primary/15 bg-surface-container-highest px-4 py-3 transition-all hover:border-primary/40 hover:bg-primary/5 peer-focus-visible:ring-2 peer-focus-visible:ring-primary/50 peer-checked:border-primary peer-checked:bg-primary/15 peer-checked:shadow-[0_0_0_1px_rgba(150,211,189,0.35)]">
+                <span class="truncate text-sm font-bold text-on-surface"><%= slot_label(slot) %></span>
+                <span class="rounded-full bg-primary/10 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-primary transition-colors group-has-[:checked]:bg-primary group-has-[:checked]:text-[#0c0e10]">Open</span>
+              </span>
+            </label>
+          <% end %>
+        </div>
+
+        <div class="mt-5 border-t border-outline-variant/10 pt-5">
+          <%= submit_tag "Book selected slot",
+            class: "inline-flex w-full items-center justify-center rounded-lg bg-primary px-5 py-3 font-headline text-sm font-bold uppercase tracking-[0.18em] text-[#0c0e10] transition-all hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:bg-outline-variant/20 disabled:text-on-surface-variant" %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="flex flex-1 items-center justify-center rounded-lg border border-dashed border-outline-variant/20 bg-surface-container-lowest/60 p-8 text-center">
+        <div class="max-w-sm">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-primary/20 bg-primary/10">
+            <span class="material-symbols-outlined text-3xl text-primary" aria-hidden="true">event_busy</span>
+          </div>
+          <h4 class="mt-5 font-headline text-xl font-bold text-on-surface">No slots avaiable</h4>
+          <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">
+            Available slots will appear here should there be any for the selected day
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

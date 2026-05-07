@@ -46,11 +46,11 @@ class Admin::ServiceBookings::DatePickerComponent < ViewComponent::Base
 
   def date_link_class(date)
     classes = [
-      "flex aspect-square cursor-pointer items-center justify-center text-xs transition-all hover:bg-primary/10"
+      "flex h-full w-full cursor-pointer items-center justify-center text-xs transition-all hover:bg-primary/10"
     ]
 
     if date == selected_date
-      classes << "bg-primary font-bold text-on-primary shadow-[0_0_20px_rgba(172,234,211,0.4)]"
+      classes << "bg-primary font-bold text-on-primary shadow-[0_0_20px_rgba(172,234,211,0.4)] hover:bg-primary/90"
     end
 
     classes.join(" ")

@@ -2,12 +2,11 @@ class Admin::ServiceBookingsController < Admin::BaseController
   before_action :set_user, only: :create
 
   def index
-    @users = policy_scope(User).order(:email)
-    @selected_user_id = params[:user_id].presence
-    @selected_date = selected_date
-    @service_booking_time_slots = policy_scope(ServiceBookingTimeSlot)
-      .where(start_time: @selected_date.all_day)
-      .order(:start_time)
+    load_service_bookings_index
+
+    if turbo_frame_request? && turbo_frame_request_id == "service_booking_date_picker"
+      render :date_picker_frame, layout: false
+    end
   end
 
   def create
@@ -26,6 +25,16 @@ class Admin::ServiceBookingsController < Admin::BaseController
   end
 
   private
+
+  def load_service_bookings_index
+    @users = policy_scope(User).order(:email)
+    @selected_user_id = params[:user_id].presence
+    # @selected_user = authorize User.find(@selected_user_id) if @selected_user_id.present?
+    @selected_date = selected_date
+    @service_booking_time_slots = policy_scope(ServiceBookingTimeSlot)
+      .where(start_time: @selected_date.all_day)
+      .order(:start_time)
+  end
 
   def service_booking_params
     params.require(:service_booking).permit(:user_id, :service_booking_time_slot_id)

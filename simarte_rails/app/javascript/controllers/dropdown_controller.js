@@ -15,7 +15,6 @@ export default class extends Controller {
   }
 
   closeMenu(event) {
-    event.stopPropagation();
     if (!this.hasMenuTarget) return;
     this.menuTarget.classList.add("hidden");
     this._setAria(false);

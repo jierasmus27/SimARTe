@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class Admin::ServiceBookings::DatePickerComponent < ViewComponent::Base
-  def initialize(selected_date: Date.current, field_name: :date)
+  def initialize(selected_date: Date.current, field_name: :date, user_id: nil)
     @selected_date = selected_date
     @field_name = field_name
+    @user_id = user_id
   end
 
   private
 
-  attr_reader :selected_date, :field_name
+  attr_reader :selected_date, :field_name, :user_id
 
   def current_month_label
     selected_date.strftime("%B")
@@ -31,7 +32,11 @@ class Admin::ServiceBookings::DatePickerComponent < ViewComponent::Base
   end
 
   def date_picker_path(date)
-    helpers.admin_service_bookings_path(date: date.iso8601)
+    helpers.admin_service_bookings_path(index_path_params(date))
+  end
+
+  def index_path_params(date)
+    { date: date.iso8601, user_id: user_id }.compact
   end
 
   def date_link_options(date)

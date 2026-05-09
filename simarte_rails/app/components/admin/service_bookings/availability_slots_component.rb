@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Admin::ServiceBookings::AvailabilitySlotsComponent < ViewComponent::Base
-  def initialize(service_booking_time_slots:, selected_date: nil, form_id: "service_booking_form", field_name: "service_booking[service_booking_time_slot_id]")
+  def initialize(selected_user_id:, service_booking_time_slots:, selected_date: nil, form_id: "service_booking_form", field_name: "service_booking[service_booking_time_slot_id]")
+    @selected_user_id = selected_user_id
     @service_booking_time_slots = service_booking_time_slots
     @selected_date = selected_date
     @form_id = form_id
@@ -10,15 +11,19 @@ class Admin::ServiceBookings::AvailabilitySlotsComponent < ViewComponent::Base
 
   private
 
-  attr_reader :service_booking_time_slots, :selected_date, :form_id, :field_name
+  attr_reader :selected_user_id, :service_booking_time_slots, :selected_date, :form_id, :field_name
 
   def slot_label(slot)
-    return slot.label if slot.label.present?
+    return slot_time_label(slot) unless slot.label.present?
 
+    [slot_time_label(slot), ' ', '[', slot.label, ']'].compact.join
+  end
+
+  def slot_time_label(slot)
     start_time = slot.start_time.strftime("%H:%M")
     end_time = slot.end_time.strftime("%H:%M")
 
-    [ "From", " ", start_time, " - ", end_time ].compact.join
+    [ start_time, " - ", end_time ].compact.join
   end
 
   def slot_value(slot)

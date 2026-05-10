@@ -17,7 +17,7 @@ class ServiceBooker::CreatorTest < ActiveSupport::TestCase
 
     service_booking = nil
 
-    assert_difference 'ServiceBooking.count', +1 do
+    assert_difference "ServiceBooking.count", +1 do
       service_booking = ServiceBooker::Creator.new(user:, service_booking_time_slot:).create
     end
 
@@ -39,7 +39,7 @@ class ServiceBooker::CreatorTest < ActiveSupport::TestCase
 
     assert_equal service_booking_time_slot.quantity, first_service_booking_count
 
-    assert_difference 'ServiceBooking.count', 0 do
+    assert_difference "ServiceBooking.count", 0 do
       assert_raises ServiceBooker::Creator::BookedOutError do
         ServiceBooker::Creator.new(user:, service_booking_time_slot:).create
       end

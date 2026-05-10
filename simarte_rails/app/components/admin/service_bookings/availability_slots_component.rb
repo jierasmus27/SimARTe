@@ -16,7 +16,7 @@ class Admin::ServiceBookings::AvailabilitySlotsComponent < ViewComponent::Base
   def slot_label(slot)
     return slot_time_label(slot) unless slot.label.present?
 
-    [slot_time_label(slot), ' ', '[', slot.label, ']'].compact.join
+    [ slot_time_label(slot), " ", "[", slot.label, "]" ].compact.join
   end
 
   def slot_time_label(slot)

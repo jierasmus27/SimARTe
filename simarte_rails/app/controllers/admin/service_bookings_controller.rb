@@ -29,9 +29,12 @@ class Admin::ServiceBookingsController < Admin::BaseController
   def load_service_bookings_index
     @users = policy_scope(User).order(:email)
     @selected_user_id = params[:user_id].presence
-    # @selected_user = authorize User.find(@selected_user_id) if @selected_user_id.present?
+    bookings = policy_scope(ServiceBooking)
+    bookings = bookings.where(user_id: @selected_user_id) if @selected_user_id.present?
+    @service_bookings = bookings.order(created_at: :desc)
     @selected_date = selected_date
     @service_booking_time_slots = policy_scope(ServiceBookingTimeSlot)
+      .includes(:service_bookings)
       .where(start_time: @selected_date.all_day)
       .order(:start_time)
   end

@@ -1,0 +1,3 @@
+early_booking_user_1:
+  service_booking_time_slot: early_slot
+  user: one

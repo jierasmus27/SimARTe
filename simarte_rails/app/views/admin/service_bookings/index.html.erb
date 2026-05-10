@@ -1,0 +1,35 @@
+<div
+  class="px-6 sm:px-16 pt-6 pb-10 sm:pt-8"
+  data-controller='service-booking-flow'
+  data-action="selected->service-booking-flow#showCalendar"
+>
+  <div class="mb-5 flex flex-col gap-4 sm:mb-6 lg:flex-row lg:items-end lg:justify-between lg:gap-6">
+    <div>
+      <p class="text-[10px] font-label uppercase tracking-[0.25em] text-primary/70">Service Bookings</p>
+      <h2 class="mt-1.5 font-headline text-4xl font-bold tracking-tight text-on-surface">Book a Consultant Timeslot</h2>
+      <p class="mt-2 max-w-2xl font-body leading-relaxed text-on-surface-variant">
+        Select a client user, choose a calendar date, and review the open service windows for that day.
+      </p>
+    </div>
+    <div class="flex shrink-0 items-center gap-3 rounded-sm border border-primary/15 bg-primary/5 px-4 py-3 text-xs font-bold uppercase tracking-widest text-primary">
+      <span class="material-symbols-outlined text-lg" aria-hidden="true">event_available</span>
+      Window Planner
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-8 lg:gap-10">
+    <section class="w-full max-w-2xl">
+      <%= render Admin::ServiceBookings::UserSelectionComponent.new(
+        users: @users,
+        selected_user_id: @selected_user_id,
+        field_name: "service_booking[user_id]",
+        form_id: "service_booking_form"
+      ) %>
+    </section>
+    <%= turbo_frame_tag "service_booking_date_picker", class: "w-full min-w-0" do %>
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
+        <%= render "date_picker_region" %>
+      </div>
+    <% end %>
+  </div>
+</div>

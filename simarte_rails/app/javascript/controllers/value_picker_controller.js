@@ -4,7 +4,6 @@ export default class extends Controller {
   static targets = ["hiddenInput", "label"];
 
   select(event) {
-    event.stopPropagation();
     const value = event.currentTarget.dataset.optionValue;
     if (this.hasHiddenInputTarget) {
       this.hiddenInputTarget.value = value;
